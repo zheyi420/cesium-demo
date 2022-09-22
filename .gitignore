@@ -18,6 +18,7 @@ coverage
 /cypress/screenshots/
 
 # Editor directories and files
+!.vscode
 .vscode/*
 !.vscode/extensions.json
 .idea
@@ -26,3 +27,6 @@ coverage
 *.njsproj
 *.sln
 *.sw?
+
+# Static files, Don't submit it for now
+public/cesium/*

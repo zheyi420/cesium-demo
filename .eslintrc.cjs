@@ -16,5 +16,6 @@ module.exports = {
     'max-len': 'off',
     'import/prefer-default-export': 'off',
     'no-plusplus': 'off',
+    'no-param-reassign': 'warn',
   },
 };
