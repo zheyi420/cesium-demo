@@ -19,11 +19,11 @@ export default function initCesium(viewerType = '3D') {
   const containerID = viewerType === '3D' ? 'cesiumContainer' : 'cesiumContainer2D';
 
   const ViewerConstructorOptions = {
-    animation: false,
+    animation: false, // class='cesium-viewer-animationContainer'. the dial plate which usually initialized in the bottom left corner.
     baseLayerPicker: true,
     fullscreenButton: false,
     geocoder: true,
-    infoBox: false, // TODO What's this, how to display it?
+    infoBox: true, // InfoBox widget show when u click a building, and the detail about it will be show in the InfoBox widget.
     selectionIndicator: true, // TODO What's this, how to display it?
     timeline: false,
     navigationHelpButton: false,
@@ -46,7 +46,7 @@ export default function initCesium(viewerType = '3D') {
   const viewer = new Cesium.Viewer(containerID, { ...ViewerConstructorOptions });
 
   // hide the CreditDisplay
-  viewer.bottomContainer.style.display = 'none'; // TODO may effect other potentially things' display.
+  viewer.bottomContainer.style.display = 'none'; // TODO may effect other potentially things' display in this area.
 
   // Add basic drag and drop functionality
   viewer.extend(Cesium.viewerDragDropMixin);
@@ -56,18 +56,6 @@ export default function initCesium(viewerType = '3D') {
     console.log(error);
     window.alert(error);
   });
-
-  // Add Cesium OSM Buildings, a global 3D buildings layer.
-  // const buildingTileset = viewer.scene.primitives.add(Cesium.createOsmBuildings());
-
-  // Fly the camera to San Francisco at the given longitude, latitude, and height.
-  /* viewer.camera.flyTo({
-    destination: Cesium.Cartesian3.fromDegrees(-122.4175, 37.655, 400),
-    orientation: {
-      heading: Cesium.Math.toRadians(0.0),
-      pitch: Cesium.Math.toRadians(-15.0),
-    },
-  }); */
 
   return viewer;
 }

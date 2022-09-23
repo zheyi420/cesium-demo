@@ -14,7 +14,7 @@
               v-for="(item, item_index) in category.contents"
               :key="item_index"
               :class="{ active: item.active }"
-              @click="btnClickHandler(item)">{{ item.label }}</button>
+              @click="btnClickHandler(item, category)">{{ item.label }}</button>
           </div>
         </div>
       </div>
@@ -26,36 +26,45 @@
 </template>
 
 <script setup>
-import { ref, reactive, watchEffect } from 'vue';
+import { ref, reactive } from 'vue';
 
 const panelVisible = ref(true);
 const currentSelection = ref(null);
-const props = defineProps([]);
+// const props = defineProps([]);
 const emits = defineEmits(['select']);
 
 const togglePanelVisibility = () => {
   panelVisible.value = !panelVisible.value;
 };
 
-const clearSelection = () => {
+const inactivateSelection = () => {
   if (currentSelection.value != null) currentSelection.value.active = false;
 };
 
-const btnClickHandler = (item) => {
+const btnClickHandler = (item, category) => {
   if (item.active) {
-    item.active = false;
+    inactivateSelection();
     currentSelection.value = null;
-    emits('select', null);
+    emits('select', null); // TODO use stored variable to signify the currentSelection.
   } else {
-    clearSelection();
+    inactivateSelection();
     item.active = true;
     currentSelection.value = item;
-    emits('select', { ...item });
+    emits('select', { ...item, categoryLabel: category.label });
   }
   // console.log('currentSelection:', currentSelection.value);
 };
 
 const gallery = reactive([
+  {
+    label: 'Beginner',
+    contents: [
+      {
+        label: 'QuickStart',
+        description: 'A basic Cesium app loading global 3D terrain and buildings in San Francisco.',
+      },
+    ],
+  },
   {
     label: '3D Tiles',
     contents: [

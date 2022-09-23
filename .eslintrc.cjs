@@ -17,5 +17,6 @@ module.exports = {
     'import/prefer-default-export': 'off',
     'no-plusplus': 'off',
     'no-param-reassign': 'warn',
+    camelcase: 'off',
   },
 };
