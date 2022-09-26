@@ -3,23 +3,19 @@
 import { ref, computed } from 'vue';
 import { defineStore } from 'pinia';
 
-export const useCounterStore = defineStore('counter', () => {
-  const count = ref(0);
-  const doubleCount = computed(() => count.value * 2);
-  function increment() {
-    count.value++;
-  }
-
-  return { count, doubleCount, increment };
-});
-
-// TODO
 export const useCurDemoStore = defineStore('CurDemo', () => {
+  // pass in a function that defines reactive properties and methods,
+  // and returns an object with the properties and methods we want to expose.
+
+  // state
   const curDemo = ref(null);
 
-  function hasDemoRun() {
-    return curDemo.value != null;
-  }
+  // getters
+  const getCurDemo = computed(() => ({ ...curDemo.value }));
+
+  const hasDemoRun = computed(() => curDemo.value != null);
+
+  // actions
   function activateDemo(demoInfo) {
     curDemo.value = { ...demoInfo };
   }
@@ -27,7 +23,10 @@ export const useCurDemoStore = defineStore('CurDemo', () => {
     curDemo.value = null;
   }
 
+  // watchers
+  // ...
+
   return {
-    curDemo, hasDemoRun, activateDemo, destroyCurDemo,
+    getCurDemo, hasDemoRun, activateDemo, destroyCurDemo,
   };
 });

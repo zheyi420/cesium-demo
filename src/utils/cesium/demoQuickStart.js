@@ -35,16 +35,23 @@ const flyTo = (viewer) => {
 
 export const demoQuickStart = (viewer) => {
   flyTo(viewer);
-  setTimeout(() => { // TODO change to using the function which can detect whether the loading compeleted.
-    addOSMBuildings(viewer);
-  }, 20 * 1000);
+  addOSMBuildings(viewer); // TODO use the function which can detect whether the loading of destination had compeleted.
 };
 
 export const destroyDemoQuickStart = (viewer) => {
+  // https://cesium.com/learn/cesiumjs/ref-doc/PrimitiveCollection.html#destroyPrimitives
+  // Determines if primitives in the collection are destroyed when they are removed by PrimitiveCollection#destroy or PrimitiveCollection#remove or implicitly by PrimitiveCollection#removeAll.
+  // Default Value: true
+  // viewer.scene.primitives.destroyPrimitives = false;
+
   const res = viewer.scene.primitives.remove(primitive_buildingTileset);
   if (res) {
     console.log('the primitive was removed.');
   } else {
     console.log('the primitive is undefined or was not found in the collection.');
   }
+  console.log('is primitive_buildingTileset destroyed:', primitive_buildingTileset.isDestroyed());
+  // https://cesium.com/learn/cesiumjs/ref-doc/Primitive.html#destroy
+  // primitive had been destroyed when it was removed by PrimitiveCollection#remove.
+  primitive_buildingTileset = undefined;
 };
