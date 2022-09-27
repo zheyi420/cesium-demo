@@ -6,6 +6,10 @@ export const GalleryList = [
         label: 'QuickStart',
         description: 'A basic Cesium app loading global 3D terrain and buildings in San Francisco.',
       },
+      {
+        label: 'Flight Tracker',
+        description: ' Visualize a real flight from San Francisco to Copenhagen, with radar data collected by FlightRadar24.',
+      },
     ],
   },
   {

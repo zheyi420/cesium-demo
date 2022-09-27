@@ -1,6 +1,34 @@
-# vite-project-2
+# cesium-demo
 
-This template should help get you started developing with Vue 3 in Vite.
+- Module Bundler: [Vite 3](https://vitejs.dev/)
+- JavaScript Framework for Web User Interfaces: [Vue 3](https://vuejs.org/)
+- Store Library for Vue: [Pinia 2](https://pinia.vuejs.org/)
+- Router: [Vue Router 4](https://router.vuejs.org/)
+- JavaScript library for creating world-class 3D globes and maps: [CesiumJS](https://cesium.com/learn/cesiumjs-learn/)
+
+# Function Demonstration
+
+- Demo from [CesiumJS Code Examples](https://sandcastle.cesium.com/).
+  - 3D Tiles Adjust Height.
+  - Ambient Occlusion.
+  - CZML.
+  - and more...
+- Flight Tracker.
+- Satellite Tracker.
+- Basic Functions:
+  - Display spatial coordinates.
+  - Distance measurement.
+  - Area measurement.
+
+# Code Structure Detail
+
+- /public (Directory to serve as plain static assets.) [vitejs#publicDir](https://vitejs.dev/config/shared-options.html#publicdir)
+  - /cesium/Build/Cesium (The URL on your server where CesiumJS's static files are hosted.)
+- /src
+  - App.vue (root component)
+  - /components (for Vue components)
+  - /utils
+    - /cesium (cesium related utils code)
 
 ## Recommended IDE Setup
 
@@ -33,3 +61,7 @@ npm run build
 ```sh
 npm run lint
 ```
+
+## Project References
+
+- [vue-vite-cesium-demo](https://github.com/lihanqiang/vue-vite-cesium-demo)

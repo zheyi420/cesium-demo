@@ -10,6 +10,7 @@ import initCesium from '../utils/cesium/initCesium';
 import 'cesium/Build/Cesium/Widgets/widgets.css';
 import GalleryPanel from './GalleryPanel.vue';
 import { demoQuickStart, destroyDemoQuickStart } from '../utils/cesium/demoQuickStart';
+import { demoFlightTracker, destroyDemoFlightTracker } from '../utils/cesium/demoFlightTracker';
 import { useCurDemoStore } from '../stores/states';
 
 // We are defining a store because the store won't be created until use...Store() is called inside of setup().
@@ -30,8 +31,14 @@ const demoCase = (caseInfo) => {
       demoQuickStart(viewer);
       break;
     }
-    default:
+    case 'Beginner-Flight Tracker': {
+      demoFlightTracker(viewer);
       break;
+    }
+    default: {
+      console.log("demoCase() didn't match the case info.");
+      break;
+    }
   }
 
   storeCurDemo.activateDemo({ ...caseInfo });
@@ -40,14 +47,20 @@ const demoCase = (caseInfo) => {
 const destroyCurDemo = () => {
   console.log('CesiumContainer run destroyCurDemo().');
 
-  console.log('the current Demo need to be destroyed:', JSON.parse(JSON.stringify(storeCurDemo.getCurDemo)));
+  console.log('the current demo which need to be destroyed:', JSON.parse(JSON.stringify(storeCurDemo.getCurDemo)));
   switch (storeCurDemo.getCurDemo.categoryLabel.concat('-', storeCurDemo.getCurDemo.label)) {
     case 'Beginner-QuickStart': {
       destroyDemoQuickStart(viewer);
       break;
     }
-    default:
+    case 'Beginner-Flight Tracker': {
+      destroyDemoFlightTracker();
       break;
+    }
+    default: {
+      console.log("destroyCurDemo() didn't match the case info.");
+      break;
+    }
   }
 
   storeCurDemo.destroyCurDemo();
