@@ -19,15 +19,15 @@ export default function initCesium(viewerType = '3D') {
   const containerID = viewerType === '3D' ? 'cesiumContainer' : 'cesiumContainer2D';
 
   const ViewerConstructorOptions = {
-    animation: false, // class='cesium-viewer-animationContainer'. the dial plate which usually initialized in the bottom left corner.
+    animation: true, // the Animation widget need to be created. use css to hide the animationContainer.
     baseLayerPicker: true,
     fullscreenButton: false,
     geocoder: true,
     infoBox: true, // InfoBox widget show when u click a building, and the detail about it will be show in the InfoBox widget.
     selectionIndicator: true, // TODO What's this, how to display it?
-    timeline: false,
+    timeline: true, // the Timeline widget need to be created. use css to hide the timelineContainer.
     navigationHelpButton: false,
-    navigationInstructionsInitiallyVisible: false,
+    navigationInstructionsInitiallyVisible: true,
     skyAtmosphere: false,
     // Start in with the specific scene viewer.
     sceneMode: Cesium.SceneMode.SCENE3D, // MORPHING, COLUMBUS_VIEW, SCENE2D, SCENE3D
@@ -42,11 +42,11 @@ export default function initCesium(viewerType = '3D') {
     // mapProjection: new Cesium.WebMercatorProjection(),
   };
 
-  // Initialize the Cesium Viewer in the HTML element with the "cesiumContainer" ID.
+  // Initialize the Cesium Viewer in the HTML element with the containerID.
   const viewer = new Cesium.Viewer(containerID, { ...ViewerConstructorOptions });
 
   // hide the CreditDisplay
-  viewer.bottomContainer.style.display = 'none'; // TODO may effect other potentially things' display in this area.
+  // viewer.bottomContainer.style.display = 'none'; // TODO may effect other potentially things' display in this area.
 
   // Add basic drag and drop functionality
   viewer.extend(Cesium.viewerDragDropMixin);

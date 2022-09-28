@@ -91,7 +91,7 @@ onMounted(() => {
 
 </script>
 
-<style scoped>
+<style scoped lang="less">
 #cesiumContainer {
   width: 100%;
   height: 100%;
