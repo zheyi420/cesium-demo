@@ -19,25 +19,13 @@ export default function initCesium(viewerType = '3D') {
   const containerID = viewerType === '3D' ? 'cesiumContainer' : 'cesiumContainer2D';
 
   const ViewerConstructorOptions = {
-    animation: true, // the Animation widget need to be created. use css to hide the animationContainer.
-    baseLayerPicker: true,
-    fullscreenButton: false,
-    geocoder: true,
-    infoBox: true, // InfoBox widget show when u click a building, and the detail about it will be show in the InfoBox widget.
-    selectionIndicator: true, // TODO What's this, how to display it?
-    timeline: true, // the Timeline widget need to be created. use css to hide the timelineContainer.
-    navigationHelpButton: false,
-    navigationInstructionsInitiallyVisible: true,
-    skyAtmosphere: false,
-    // Start in with the specific scene viewer.
-    sceneMode: Cesium.SceneMode.SCENE3D, // MORPHING, COLUMBUS_VIEW, SCENE2D, SCENE3D
+    navigationInstructionsInitiallyVisible: false,
     // selectedTerrainProviderViewModel: // TODO
     // Use Cesium World Terrain
     terrainProvider: Cesium.createWorldTerrain({ // TODO
       requestWaterMask: false,
       requestVertexNormals: false,
     }),
-    skyBox: false, // undefined | new Cesium.SkyBox(options)
     // Show Columbus View map with Web Mercator projection
     // mapProjection: new Cesium.WebMercatorProjection(),
   };
@@ -46,7 +34,11 @@ export default function initCesium(viewerType = '3D') {
   const viewer = new Cesium.Viewer(containerID, { ...ViewerConstructorOptions });
 
   // hide the CreditDisplay
-  // viewer.bottomContainer.style.display = 'none'; // TODO may effect other potentially things' display in this area.
+  viewer.cesiumWidget.creditContainer.style.visibility = 'hidden'; // same as -> viewer.bottomContainer.style.visibility = 'hidden';
+  // hide the animation
+  viewer.animation.container.style.visibility = 'hidden';
+  // hide the timeline
+  viewer.timeline.container.style.visibility = 'hidden';
 
   // Add basic drag and drop functionality
   viewer.extend(Cesium.viewerDragDropMixin);

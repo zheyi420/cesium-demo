@@ -1,10 +1,5 @@
 [
   {
-    "longitude": -122.39053,
-    "latitude": 37.61779,
-    "height": -27.32
-  },
-  {
     "longitude": -122.39035,
     "latitude": 37.61803,
     "height": -27.32
@@ -3092,26 +3087,6 @@
   {
     "longitude": 12.64904,
     "latitude": 55.62492,
-    "height": 40.94
-  },
-  {
-    "longitude": 12.64928,
-    "latitude": 55.62491,
-    "height": 40.94
-  },
-  {
-    "longitude": 12.64936,
-    "latitude": 55.6249,
-    "height": 40.94
-  },
-  {
-    "longitude": 12.64949,
-    "latitude": 55.62442,
-    "height": 40.94
-  },
-  {
-    "longitude": 12.64936,
-    "latitude": 55.6247,
     "height": 40.94
   }
 ]

@@ -54,7 +54,7 @@ const destroyCurDemo = () => {
       break;
     }
     case 'Beginner-Flight Tracker': {
-      destroyDemoFlightTracker();
+      destroyDemoFlightTracker(viewer);
       break;
     }
     default: {

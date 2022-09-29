@@ -1,23 +1,23 @@
 import Cesium from './Cesium';
 import trajectory from './assets/trajectorySanFrancisco2Copenhagen.json';
 
-const display_Animation_Timeline_Container = () => {
-  // display the animationContainer and the timelineContainer.
-  const cesiumContainer = document.getElementById('cesiumContainer');
-  const timelineContainer = cesiumContainer.getElementsByClassName('cesium-viewer-timelineContainer')[0];
-  timelineContainer.style.display = 'block';
-  const animationContainer = cesiumContainer.getElementsByClassName('cesium-viewer-animationContainer')[0];
-  animationContainer.style.display = 'block';
+const display_Animation_Timeline_Container = (viewer) => {
+  viewer.animation.container.style.visibility = 'visible';
+  viewer.timeline.container.style.visibility = 'visible';
 };
 
-const hide_Animation_Timeline_Container = () => {};
+const hide_Animation_Timeline_Container = (viewer) => {
+  viewer.animation.container.style.visibility = 'hidden';
+  viewer.timeline.container.style.visibility = 'hidden';
+};
 
 export const demoFlightTracker = (viewer) => {
-  display_Animation_Timeline_Container();
+  display_Animation_Timeline_Container(viewer);
 
   // Fly the camera to the first point.
-  viewer.camera.flyTo({
-    destination: Cesium.Cartesian3.fromDegrees(-122.39053, 37.61779, -27.32),
+  viewer.camera.flyTo({ // TODO sometimes the camera is not face the airplane entity directly.
+    // https://cesium.com/learn/cesiumjs/ref-doc/Camera.html#flyTo
+    destination: Cesium.Cartesian3.fromDegrees(-122.39035, 37.61803, 0),
     orientation: {
       heading: Cesium.Math.toRadians(0.0),
       pitch: Cesium.Math.toRadians(-15.0),
@@ -45,30 +45,29 @@ export const demoFlightTracker = (viewer) => {
   viewer.clock.currentTime = start.clone();
   viewer.timeline.zoomTo(start, stop);
   // Speed up the playback speed 50x.
-  viewer.clock.multiplier = 50;
+  // viewer.clock.multiplier = 50;
   // Start playing the scene.
-  viewer.clock.shouldAnimate = true;
+  viewer.clock.shouldAnimate = false;
 
   // The SampledPositionedProperty stores the position and timestamp for each sample along the radar sample series.
   const positionProperty = new Cesium.SampledPositionProperty();
 
   // Create a point for each.
-  // TODO detect if the viewer have fly to the destination and the terrain have loaded. add point entity after that.
   for (let i = 0; i < trajectoryData.length; i++) {
     const dataPoint = trajectoryData[i];
 
     // Declare the time for this individual sample and store it in a new JulianDate instance.
-    const time = Cesium.JulianDate.addSeconds(start, i * timeStepInSeconds, new Cesium.JulianDate());
+    const timestamp = Cesium.JulianDate.addSeconds(start, i * timeStepInSeconds, new Cesium.JulianDate());
     const position = Cesium.Cartesian3.fromDegrees(dataPoint.longitude, dataPoint.latitude, dataPoint.height);
     // Store the position along with its timestamp.
     // Here we add the positions all upfront, but these can be added at run-time as samples are received from a server.
-    positionProperty.addSample(time, position);
+    positionProperty.addSample(timestamp, position);
 
     // Mark this location with a red point.
     viewer.entities.add({
       description: `Location: (${dataPoint.longitude}, ${dataPoint.latitude}, ${dataPoint.height})`,
       position,
-      point: { pixelSize: 10, color: Cesium.Color.RED },
+      point: { pixelSize: 5, color: Cesium.Color.RED },
     });
   }
 
@@ -104,6 +103,25 @@ export const demoFlightTracker = (viewer) => {
   }
 
   loadAirPlaneModel();
+
+  /* TODO when the flight ends:
+    Pause the animation. so we can let the plane model stay put.
+  */
 };
 
-export const destroyDemoFlightTracker = () => { };
+export const destroyDemoFlightTracker = (viewer) => {
+  // pause the clock
+  viewer.clock.multiplier = 1;
+  viewer.clock.shouldAnimate = false;
+  // adjust the time to current time.
+  const curJulianDate = Cesium.JulianDate.now();
+  viewer.clock.currentTime = curJulianDate;
+  const startTime = Cesium.JulianDate.addDays(curJulianDate, -1, new Cesium.JulianDate());
+  const stopTime = Cesium.JulianDate.addDays(curJulianDate, 1, new Cesium.JulianDate());
+  viewer.timeline.zoomTo(startTime, stopTime);
+
+  // remove all entities
+  viewer.entities.removeAll();
+
+  hide_Animation_Timeline_Container(viewer);
+};
