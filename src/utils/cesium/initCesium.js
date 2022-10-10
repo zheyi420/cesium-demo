@@ -19,6 +19,7 @@ export default function initCesium(viewerType = '3D') {
   const containerID = viewerType === '3D' ? 'cesiumContainer' : 'cesiumContainer2D';
 
   const ViewerConstructorOptions = {
+    sceneModePicker: false,
     navigationInstructionsInitiallyVisible: false,
     // selectedTerrainProviderViewModel: // TODO
     // Use Cesium World Terrain
@@ -33,8 +34,10 @@ export default function initCesium(viewerType = '3D') {
   // Initialize the Cesium Viewer in the HTML element with the containerID.
   const viewer = new Cesium.Viewer(containerID, { ...ViewerConstructorOptions });
 
+  viewer.scene.globe.enableLighting = true;
+
   // hide the CreditDisplay
-  viewer.cesiumWidget.creditContainer.style.visibility = 'hidden'; // same as -> viewer.bottomContainer.style.visibility = 'hidden';
+  viewer.cesiumWidget.creditContainer.style.visibility = 'hidden'; // seems same as -> viewer.bottomContainer.style.visibility = 'hidden';
   // hide the animation
   viewer.animation.container.style.visibility = 'hidden';
   // hide the timeline

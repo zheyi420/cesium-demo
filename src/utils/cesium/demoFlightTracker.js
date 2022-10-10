@@ -1,28 +1,42 @@
 import Cesium from './Cesium';
 import trajectory from './assets/trajectorySanFrancisco2Copenhagen.json';
+import {
+  addOSMBuildings, removePrimitive, display_Animation_Timeline_Container, hide_Animation_Timeline_Container,
+} from './utils';
 
-const display_Animation_Timeline_Container = (viewer) => {
-  viewer.animation.container.style.visibility = 'visible';
-  viewer.timeline.container.style.visibility = 'visible';
-};
-
-const hide_Animation_Timeline_Container = (viewer) => {
-  viewer.animation.container.style.visibility = 'hidden';
-  viewer.timeline.container.style.visibility = 'hidden';
-};
+let primitive_CesiumOSMBuildings;
 
 export const demoFlightTracker = (viewer) => {
   display_Animation_Timeline_Container(viewer);
 
-  // Fly the camera to the first point.
-  viewer.camera.flyTo({ // TODO sometimes the camera is not face the airplane entity directly.
+  /**
+   * Fly the camera to the first point.
+  viewer.camera.flyTo({
     // https://cesium.com/learn/cesiumjs/ref-doc/Camera.html#flyTo
-    destination: Cesium.Cartesian3.fromDegrees(-122.39035, 37.61803, 0),
+    destination: Cesium.Cartesian3.fromDegrees(-122.39035, 37.61803, 3),
     orientation: {
       heading: Cesium.Math.toRadians(0.0),
       pitch: Cesium.Math.toRadians(-15.0),
     },
   });
+  */
+  /**
+   * because of the code below make the camera track this moving entity.
+   * the effect of viewer.camera.lookAt() will be coverd.
+  const targetPosition = Cesium.Cartesian3.fromDegrees(-122.39035, 37.61803, -27.32);
+  // Using a HeadingPitchRange offset
+  // The heading is the angle from y axis and increasing towards the x axis.
+  const heading = Cesium.Math.toRadians(-90.0);
+  // Pitch is the rotation from the xy-plane. Positive pitch angles are below the plane. Negative pitch angles are above the plane.
+  const pitch = Cesium.Math.toRadians(-10.0);
+  // The range is the distance from the center.
+  const range = 200.0;
+  // https://cesium.com/learn/cesiumjs/ref-doc/Camera.html#lookAt
+  // viewer.camera.lookAt(targetPosition, new Cesium.Cartesian3(0.0, -4790000.0, 3930000.0));
+  viewer.camera.lookAt(targetPosition, new Cesium.HeadingPitchRange(heading, pitch, range));
+  */
+
+  primitive_CesiumOSMBuildings = addOSMBuildings(viewer);
 
   // These are all the radar points from this flight.
   const trajectoryData = JSON.parse(JSON.stringify(trajectory));
@@ -60,7 +74,7 @@ export const demoFlightTracker = (viewer) => {
     const timestamp = Cesium.JulianDate.addSeconds(start, i * timeStepInSeconds, new Cesium.JulianDate());
     const position = Cesium.Cartesian3.fromDegrees(dataPoint.longitude, dataPoint.latitude, dataPoint.height);
     // Store the position along with its timestamp.
-    // Here we add the positions all upfront, but these can be added at run-time as samples are received from a server.
+    // TODO Here we add the positions all upfront, but these can be added at run-time as samples are received from a server.
     positionProperty.addSample(timestamp, position);
 
     // Mark this location with a red point.
@@ -71,22 +85,8 @@ export const demoFlightTracker = (viewer) => {
     });
   }
 
-  // green circle entity
-  // Create an entity to both visualize the entire radar sample series with a line and add a point that moves along the samples.
-  function addGreenCircleEntity() {
-    const airplaneEntity = viewer.entities.add({
-      availability: new Cesium.TimeIntervalCollection([new Cesium.TimeInterval({ start, stop })]),
-      position: positionProperty,
-      point: { pixelSize: 30, color: Cesium.Color.GREEN },
-      path: new Cesium.PathGraphics({ width: 3 }),
-    });
-    // Make the camera track this moving entity.
-    viewer.trackedEntity = airplaneEntity;
-  }
-
-  // addGreenCircleEntity();
-
   // airplane entity
+  // Create an entity to both visualize the entire radar sample series with a line and add an airplane model that moves along the samples.
   async function loadAirPlaneModel() {
     // Load the glTF model from Cesium ion.
     const airplaneUri = await Cesium.IonResource.fromAssetId(1334695);
@@ -98,15 +98,11 @@ export const demoFlightTracker = (viewer) => {
       orientation: new Cesium.VelocityOrientationProperty(positionProperty),
       path: new Cesium.PathGraphics({ width: 3 }),
     });
-
+    // Make the camera track this moving entity.
     viewer.trackedEntity = airplaneEntity;
   }
 
   loadAirPlaneModel();
-
-  /* TODO when the flight ends:
-    Pause the animation. so we can let the plane model stay put.
-  */
 };
 
 export const destroyDemoFlightTracker = (viewer) => {
@@ -120,8 +116,19 @@ export const destroyDemoFlightTracker = (viewer) => {
   const stopTime = Cesium.JulianDate.addDays(curJulianDate, 1, new Cesium.JulianDate());
   viewer.timeline.zoomTo(startTime, stopTime);
 
-  // remove all entities
+  // remove all entities.
   viewer.entities.removeAll();
+
+  // remove the Cesium OSM Buildings.
+  removePrimitive(viewer, primitive_CesiumOSMBuildings);
+  primitive_CesiumOSMBuildings = undefined;
 
   hide_Animation_Timeline_Container(viewer);
 };
+
+/**
+ * more info about flight track
+ * [Build a Flight Tracker](https://cesium.com/learn/cesiumjs-learn/cesiumjs-flight-tracker/)
+ * [Track the World's Commercial Air Traffic with Flightradar24's CesiumJS App](https://cesium.com/blog/2020/08/13/flightradar24/)
+ * [How flight tracking works](https://www.flightradar24.com/how-it-works)
+ */

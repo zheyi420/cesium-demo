@@ -65,3 +65,8 @@ npm run lint
 # Project References
 
 - [vue-vite-cesium-demo](https://github.com/lihanqiang/vue-vite-cesium-demo)
+
+# Todo
+
+- [ ] use [JSDoc](https://jsdoc.app/).
+- [ ] ...
