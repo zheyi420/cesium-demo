@@ -25,6 +25,7 @@ export const addOSMBuildings = (viewer) => {
 
 /**
  * Removes a primitive from the collection.
+ * Recommend assign primitive undefined after remove.
  * @param {Viewer} viewer - Cesium.Viewer
  * @param {Primitive} primitive - The primitive to remove.
  * @returns {Boolean} Is primitive destroyed.
@@ -62,4 +63,28 @@ export const display_Animation_Timeline_Container = (viewer) => {
 export const hide_Animation_Timeline_Container = (viewer) => {
   viewer.animation.container.style.visibility = 'hidden';
   viewer.timeline.container.style.visibility = 'hidden';
+};
+
+/**
+ * Adjust clock to Now, timeline to the nearby time.
+ * Pause the clock, set multiplier to 1.
+ * @param {Viewer} viewer
+ */
+export const adjust_Animation_Timeline_toNow = (viewer) => {
+  viewer.clock.multiplier = 1;
+  viewer.clock.shouldAnimate = false;
+
+  const curJulianDate = Cesium.JulianDate.now();
+  viewer.clock.currentTime = curJulianDate;
+  const startTime = Cesium.JulianDate.addDays(curJulianDate, -1, new Cesium.JulianDate());
+  const stopTime = Cesium.JulianDate.addDays(curJulianDate, 1, new Cesium.JulianDate());
+  viewer.timeline.zoomTo(startTime, stopTime);
+};
+
+/**
+ * Correct orientation of the camera.
+ * @param {Viewer} viewer
+ */
+export const correct_camera_orientation = (viewer) => {
+  // TODO
 };

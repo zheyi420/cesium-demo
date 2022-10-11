@@ -27,7 +27,7 @@
 
 <script setup>
 import { ref, reactive } from 'vue';
-import { GalleryList } from './DemoInfo';
+import { GalleryList } from '../demo/DemoInfo';
 
 const panelVisible = ref(true);
 const currentSelection = ref(null);

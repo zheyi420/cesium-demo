@@ -8,7 +8,11 @@ export const GalleryList = [
       }, */
       {
         label: 'Flight Tracker',
-        description: ' Visualize a real flight from San Francisco to Copenhagen, with radar data collected by FlightRadar24.',
+        description: 'Visualize a real flight from San Francisco to Copenhagen, with radar data collected by FlightRadar24.',
+      },
+      {
+        label: 'Proposed Building',
+        description: 'Visualize a Proposed Building in a 3D City',
       },
     ],
   },

@@ -18,5 +18,9 @@ module.exports = {
     'no-plusplus': 'off',
     'no-param-reassign': 'warn',
     camelcase: 'off',
+    'no-console': 'warn',
+    'no-alert': 'warn',
+    'no-restricted-syntax': 'off',
+    'no-underscore-dangle': 'off',
   },
 };

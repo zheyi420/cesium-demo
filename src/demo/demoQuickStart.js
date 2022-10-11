@@ -1,5 +1,5 @@
-import Cesium from './Cesium';
-import { addOSMBuildings, removePrimitive } from './utils';
+import Cesium from '../utils/cesium/Cesium';
+import { addOSMBuildings, removePrimitive } from '../utils/cesium/utils';
 
 let primitive_CesiumOSMBuildings;
 

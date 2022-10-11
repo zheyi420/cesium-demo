@@ -68,5 +68,17 @@ npm run lint
 
 # Todo
 
+### Code Quality
+
 - [ ] use [JSDoc](https://jsdoc.app/).
-- [ ] ...
+
+### Function
+- [ ] Visualize a Proposed Building in a 3D City.
+	- [ ] do not use Cesium ion to host and stream geojson file, load locally.
+
+
+### utils
+
+- [ ] Add correction tool to correct the orientation of the camera.
+- [ ] Add a panel to indicate directions of south, east, north, west.
+- [ ] Add a panel to indicate the longitude, latitude and height of the camera.

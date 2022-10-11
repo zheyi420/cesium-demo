@@ -4,13 +4,13 @@
 </template>
 
 <script setup>
-import { computed, onMounted, ref } from 'vue';
-import Cesium from '../utils/cesium/Cesium';
+import { onMounted } from 'vue';
 import initCesium from '../utils/cesium/initCesium';
 import 'cesium/Build/Cesium/Widgets/widgets.css';
 import GalleryPanel from './GalleryPanel.vue';
-import { demoQuickStart, destroyDemoQuickStart } from '../utils/cesium/demoQuickStart';
-import { demoFlightTracker, destroyDemoFlightTracker } from '../utils/cesium/demoFlightTracker';
+import {
+  demoQuickStart, destroyDemoQuickStart, demoFlightTracker, destroyDemoFlightTracker, demoProposedBuilding, destroyDemoProposedBuilding,
+} from '../demo';
 import { useCurDemoStore } from '../stores/states';
 
 // We are defining a store because the store won't be created until use...Store() is called inside of setup().
@@ -26,6 +26,9 @@ const storeCurDemo = useCurDemoStore();
 let viewer;
 
 const demoCase = (caseInfo) => {
+  console.log('CesiumContainer run demoCase().');
+  console.log('the current demo which will be run:', caseInfo.label);
+
   switch (caseInfo.categoryLabel.concat('-', caseInfo.label)) {
     case 'Beginner-QuickStart': {
       demoQuickStart(viewer);
@@ -33,6 +36,10 @@ const demoCase = (caseInfo) => {
     }
     case 'Beginner-Flight Tracker': {
       demoFlightTracker(viewer);
+      break;
+    }
+    case 'Beginner-Proposed Building': {
+      demoProposedBuilding(viewer);
       break;
     }
     default: {
@@ -46,8 +53,8 @@ const demoCase = (caseInfo) => {
 
 const destroyCurDemo = () => {
   console.log('CesiumContainer run destroyCurDemo().');
-
   console.log('the current demo which need to be destroyed:', JSON.parse(JSON.stringify(storeCurDemo.getCurDemo)));
+
   switch (storeCurDemo.getCurDemo.categoryLabel.concat('-', storeCurDemo.getCurDemo.label)) {
     case 'Beginner-QuickStart': {
       destroyDemoQuickStart(viewer);
@@ -55,6 +62,10 @@ const destroyCurDemo = () => {
     }
     case 'Beginner-Flight Tracker': {
       destroyDemoFlightTracker(viewer);
+      break;
+    }
+    case 'Beginner-Proposed Building': {
+      destroyDemoProposedBuilding(viewer);
       break;
     }
     default: {
@@ -80,9 +91,7 @@ const selectCase = (caseInfo) => {
     console.log('data of previous case have been cleared, demo new case now...');
   }
 
-  const { label } = caseInfo;
   demoCase({ ...caseInfo });
-  console.log(`demo case ${label}.`);
 };
 
 onMounted(() => {
