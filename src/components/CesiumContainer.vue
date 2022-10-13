@@ -1,17 +1,21 @@
 <template>
   <div id="cesiumContainer"></div>
   <GalleryPanel @select="selectCase"/>
+  <DemoProposedBuilding v-if="isCurDemoProposedBuilding"/>
 </template>
 
 <script setup>
-import { onMounted } from 'vue';
+import { computed, onMounted } from 'vue';
 import initCesium from '../utils/cesium/initCesium';
 import 'cesium/Build/Cesium/Widgets/widgets.css';
 import GalleryPanel from './GalleryPanel.vue';
+import DemoProposedBuilding from './DemoProposedBuilding.vue';
 import {
   demoQuickStart, destroyDemoQuickStart, demoFlightTracker, destroyDemoFlightTracker, demoProposedBuilding, destroyDemoProposedBuilding,
 } from '../demo';
-import { useCurDemoStore } from '../stores/states';
+import { useCurDemoStore, usePrimitiveStore } from '../stores/states';
+
+import { ConsoleLog } from '../utils';
 
 // We are defining a store because the store won't be created until use...Store() is called inside of setup().
 // you can return the whole store instance to use it in the template.
@@ -23,11 +27,19 @@ const storeCurDemo = useCurDemoStore();
 // Note you can destructure actions directly from the store as they are bound to the store itself too.
 // const { activateDemo, destroyCurDemo } = storeCurDemo;
 
+const storeCurPrimitive = usePrimitiveStore();
+
 let viewer;
 
+const isCurDemoProposedBuilding = computed(() => {
+  const demoCaseInfo = storeCurDemo.getCurDemo.categoryLabel.concat('-', storeCurDemo.getCurDemo.label);
+
+  return storeCurDemo.hasDemoRun && demoCaseInfo === 'Beginner-Proposed Building' && storeCurPrimitive.hasPrimitiveStore;
+});
+
 const demoCase = (caseInfo) => {
-  console.log('CesiumContainer run demoCase().');
-  console.log('the current demo which will be run:', caseInfo.label);
+  ConsoleLog('CesiumContainer run demoCase().');
+  ConsoleLog('the current demo which will be run:', caseInfo.label);
 
   switch (caseInfo.categoryLabel.concat('-', caseInfo.label)) {
     case 'Beginner-QuickStart': {
@@ -43,7 +55,7 @@ const demoCase = (caseInfo) => {
       break;
     }
     default: {
-      console.log("demoCase() didn't match the case info.");
+      ConsoleLog("demoCase() didn't match the case info.");
       break;
     }
   }
@@ -52,8 +64,8 @@ const demoCase = (caseInfo) => {
 };
 
 const destroyCurDemo = () => {
-  console.log('CesiumContainer run destroyCurDemo().');
-  console.log('the current demo which need to be destroyed:', JSON.parse(JSON.stringify(storeCurDemo.getCurDemo)));
+  ConsoleLog('CesiumContainer run destroyCurDemo().');
+  ConsoleLog('the current demo which need to be destroyed:', JSON.parse(JSON.stringify(storeCurDemo.getCurDemo)));
 
   switch (storeCurDemo.getCurDemo.categoryLabel.concat('-', storeCurDemo.getCurDemo.label)) {
     case 'Beginner-QuickStart': {
@@ -69,7 +81,7 @@ const destroyCurDemo = () => {
       break;
     }
     default: {
-      console.log("destroyCurDemo() didn't match the case info.");
+      ConsoleLog("destroyCurDemo() didn't match the case info.");
       break;
     }
   }
@@ -81,14 +93,14 @@ const selectCase = (caseInfo) => {
   if (caseInfo == null) {
     // clear data, camera stay put.
     destroyCurDemo();
-    console.log('data of case have been cleared.');
+    ConsoleLog('data of case have been cleared.');
     return;
   }
 
   if (storeCurDemo.hasDemoRun) {
     // clear data, camera stay put.
     destroyCurDemo();
-    console.log('data of previous case have been cleared, demo new case now...');
+    ConsoleLog('data of previous case have been cleared, demo new case now...');
   }
 
   demoCase({ ...caseInfo });

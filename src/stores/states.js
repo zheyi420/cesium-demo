@@ -30,3 +30,28 @@ export const useCurDemoStore = defineStore('CurDemo', () => {
     getCurDemo, hasDemoRun, activateDemo, destroyCurDemo,
   };
 });
+
+export const usePrimitiveStore = defineStore('CurPrimitive', () => {
+  // state
+  const curPrimitive = ref(null);
+
+  // getters
+  const getCurPrimitive = computed(() => ({ ...curPrimitive.value }));
+
+  const hasPrimitiveStore = computed(() => (curPrimitive.value != null));
+
+  // actions
+  function storePrimitive(primitive) {
+    curPrimitive.value = primitive;
+  }
+  function toggleCurPrimitiveShowStatus() {
+    curPrimitive.value.show = !curPrimitive.value.show;
+  }
+  function destroyCurPrimitive() {
+
+  }
+
+  return {
+    getCurPrimitive, hasPrimitiveStore, storePrimitive, toggleCurPrimitiveShowStatus, destroyCurPrimitive,
+  };
+});

@@ -2,7 +2,7 @@ import Cesium from '../utils/cesium/Cesium';
 import trajectory from './assets/trajectorySanFrancisco2Copenhagen.json';
 import {
   addOSMBuildings, removePrimitive, display_Animation_Timeline_Container, hide_Animation_Timeline_Container, adjust_Animation_Timeline_toNow,
-} from '../utils/cesium/utils';
+} from '../utils/cesium';
 
 let primitive_CesiumOSMBuildings;
 

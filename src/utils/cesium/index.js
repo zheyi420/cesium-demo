@@ -1,3 +1,4 @@
+import { ConsoleLog } from '..';
 import Cesium from './Cesium';
 
 /**
@@ -6,9 +7,10 @@ import Cesium from './Cesium';
  * @returns {Primitive} The primitive added to the collection.
  */
 export const addOSMBuildings = (viewer) => {
-  const primitive_CesiumOSMBuildings = viewer.scene.primitives.add(Cesium.createOsmBuildings({
-    style: new Cesium.Cesium3DTileStyle({
-      color: {
+  const primitive_CesiumOSMBuildings = viewer.scene.primitives.add(
+    Cesium.createOsmBuildings({
+      style: new Cesium.Cesium3DTileStyle({
+      /* color: {
         conditions: [
           // eslint-disable-next-line no-template-curly-in-string
           ["${feature['building']} === 'hospital'", "color('#0000FF')"],
@@ -16,9 +18,12 @@ export const addOSMBuildings = (viewer) => {
           ["${feature['building']} === 'school'", "color('#00FF00')"],
           [true, "color('#ffffff')"],
         ],
-      },
+      }, */
+        // For any building that has a `cesium#color` property, use that color, otherwise make it white.
+        color: "Boolean(${feature['cesium#color']}) ? color(${feature['cesium#color']}) : color('#ffffff')", // eslint-disable-line no-template-curly-in-string
+      }),
     }),
-  }));
+  );
 
   return primitive_CesiumOSMBuildings;
 };
@@ -37,9 +42,9 @@ export const removePrimitive = (viewer, primitive) => {
 
   const res = viewer.scene.primitives.remove(primitive);
   if (res) {
-    console.log('the primitive was removed.');
+    ConsoleLog('the primitive was removed.');
   } else {
-    console.log('the primitive is undefined or was not found in the collection.');
+    ConsoleLog('the primitive is undefined or was not found in the collection.');
   }
 
   // https://cesium.com/learn/cesiumjs/ref-doc/Primitive.html#destroy

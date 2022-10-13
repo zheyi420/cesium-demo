@@ -68,14 +68,23 @@ npm run lint
 
 # Todo
 
+### Components
+
+- [ ] reusable button component element
+
+### UI Library
+
+- [ ] should I use...??
+
+
 ### Code Quality
 
 - [ ] use [JSDoc](https://jsdoc.app/).
 
 ### Function
 - [ ] Visualize a Proposed Building in a 3D City.
-	- [ ] do not use Cesium ion to host and stream geojson file, load locally.
-
+	- [ ] do not use Cesium ion to host and stream geojson file, load locally or from publicDir.
+- [ ]  Collapse the *GalleryPanel* after run new demo.
 
 ### utils
 
