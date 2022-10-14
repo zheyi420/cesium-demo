@@ -16,7 +16,7 @@ module.exports = {
     'max-len': 'off',
     'import/prefer-default-export': 'off',
     'no-plusplus': 'off',
-    'no-param-reassign': 'warn',
+    'no-param-reassign': 'off',
     camelcase: 'off',
     'no-alert': 'warn',
     'no-restricted-syntax': 'off',

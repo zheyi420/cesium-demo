@@ -1,24 +1,22 @@
 <template>
   <div>
-    <button id="toggle-building">Toggle Proposed Building</button>
+    <button id="toggle-building" @click="toggleShowStatus">Toggle Proposed Building</button>
   </div>
 </template>
 
 <script setup>
-import { onMounted } from 'vue';
-import { usePrimitiveStore } from '../stores/states';
+import { ref } from 'vue';
+import { toggleShowStatus_ProposedBuilding } from '../demo/demoProposedBuilding';
+import { ConsoleLog } from '../utils';
 
-const storeCurPrimitive = usePrimitiveStore();
+const showStatus_ProposedBuilding = ref(true);
 
-const initBtn = () => {
-  document.querySelector('#toggle-building').onclick = () => {
-    storeCurPrimitive.toggleCurPrimitiveShowStatus();
-  };
+const toggleShowStatus = () => {
+  // TODO add a detection indicate if the proposedBuilding loaded.
+  showStatus_ProposedBuilding.value = toggleShowStatus_ProposedBuilding(!showStatus_ProposedBuilding.value);
+  ConsoleLog('showStatus_ProposedBuilding:', showStatus_ProposedBuilding.value);
 };
 
-onMounted(() => {
-  initBtn();
-});
 </script>
 
 <style scoped lang="less">

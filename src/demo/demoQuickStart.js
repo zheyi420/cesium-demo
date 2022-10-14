@@ -1,7 +1,7 @@
 import Cesium from '../utils/cesium/Cesium';
 import { addOSMBuildings, removePrimitive } from '../utils/cesium';
 
-let primitive_CesiumOSMBuildings;
+let primitive_CesiumOsmBuildings;
 
 const flyTo = (viewer) => {
   // Fly the camera to San Francisco at the given longitude, latitude, and height.
@@ -17,14 +17,14 @@ const flyTo = (viewer) => {
 export const demoQuickStart = (viewer) => {
   flyTo(viewer);
   // TODO use the function which can detect whether the loading of terrain at destination had compeleted before add OSMBuildings.
-  primitive_CesiumOSMBuildings = addOSMBuildings(viewer);
+  primitive_CesiumOsmBuildings = addOSMBuildings(viewer);
 
-  console.log('primitive_CesiumOSMBuildings - after created:', primitive_CesiumOSMBuildings);
+  console.log('primitive_CesiumOsmBuildings - after created:', primitive_CesiumOsmBuildings);
 };
 
 export const destroyDemoQuickStart = (viewer) => {
-  const res = removePrimitive(viewer, primitive_CesiumOSMBuildings);
+  const res = removePrimitive(viewer, primitive_CesiumOsmBuildings);
   console.log('is primitive destroyed:', res);
-  console.log('primitive_CesiumOSMBuildings - after destroyed:', primitive_CesiumOSMBuildings);
-  primitive_CesiumOSMBuildings = undefined;
+  console.log('primitive_CesiumOsmBuildings - after destroyed:', primitive_CesiumOsmBuildings);
+  primitive_CesiumOsmBuildings = undefined;
 };

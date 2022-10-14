@@ -3,6 +3,9 @@
 import { ref, computed } from 'vue';
 import { defineStore } from 'pinia';
 
+// it's best to use the name of the store and surround it with `use`
+// and `Store` (e.g. `useUserStore`, `useCartStore`, `useProductStore`)
+// the first argument is a unique id of the store across your application
 export const useCurDemoStore = defineStore('CurDemo', () => {
   // pass in a function that defines reactive properties and methods,
   // and returns an object with the properties and methods we want to expose.
@@ -28,30 +31,5 @@ export const useCurDemoStore = defineStore('CurDemo', () => {
 
   return {
     getCurDemo, hasDemoRun, activateDemo, destroyCurDemo,
-  };
-});
-
-export const usePrimitiveStore = defineStore('CurPrimitive', () => {
-  // state
-  const curPrimitive = ref(null);
-
-  // getters
-  const getCurPrimitive = computed(() => ({ ...curPrimitive.value }));
-
-  const hasPrimitiveStore = computed(() => (curPrimitive.value != null));
-
-  // actions
-  function storePrimitive(primitive) {
-    curPrimitive.value = primitive;
-  }
-  function toggleCurPrimitiveShowStatus() {
-    curPrimitive.value.show = !curPrimitive.value.show;
-  }
-  function destroyCurPrimitive() {
-
-  }
-
-  return {
-    getCurPrimitive, hasPrimitiveStore, storePrimitive, toggleCurPrimitiveShowStatus, destroyCurPrimitive,
   };
 });

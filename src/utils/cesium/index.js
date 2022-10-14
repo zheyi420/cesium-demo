@@ -7,25 +7,25 @@ import Cesium from './Cesium';
  * @returns {Primitive} The primitive added to the collection.
  */
 export const addOSMBuildings = (viewer) => {
-  const primitive_CesiumOSMBuildings = viewer.scene.primitives.add(
+  const primitive_CesiumOsmBuildings = viewer.scene.primitives.add(
     Cesium.createOsmBuildings({
       style: new Cesium.Cesium3DTileStyle({
-      /* color: {
-        conditions: [
-          // eslint-disable-next-line no-template-curly-in-string
-          ["${feature['building']} === 'hospital'", "color('#0000FF')"],
-          // eslint-disable-next-line no-template-curly-in-string
-          ["${feature['building']} === 'school'", "color('#00FF00')"],
-          [true, "color('#ffffff')"],
-        ],
-      }, */
+        /* color: {
+          conditions: [
+            // eslint-disable-next-line no-template-curly-in-string
+            ["${feature['building']} === 'hospital'", "color('#0000FF')"],
+            // eslint-disable-next-line no-template-curly-in-string
+            ["${feature['building']} === 'school'", "color('#00FF00')"],
+            [true, "color('#ffffff')"],
+          ],
+        }, */
         // For any building that has a `cesium#color` property, use that color, otherwise make it white.
         color: "Boolean(${feature['cesium#color']}) ? color(${feature['cesium#color']}) : color('#ffffff')", // eslint-disable-line no-template-curly-in-string
       }),
     }),
   );
 
-  return primitive_CesiumOSMBuildings;
+  return primitive_CesiumOsmBuildings;
 };
 
 /**

@@ -4,7 +4,7 @@ import {
   addOSMBuildings, removePrimitive, display_Animation_Timeline_Container, hide_Animation_Timeline_Container, adjust_Animation_Timeline_toNow,
 } from '../utils/cesium';
 
-let primitive_CesiumOSMBuildings;
+let primitive_CesiumOsmBuildings;
 
 export const demoFlightTracker = (viewer) => {
   display_Animation_Timeline_Container(viewer);
@@ -36,7 +36,7 @@ export const demoFlightTracker = (viewer) => {
   viewer.camera.lookAt(targetPosition, new Cesium.HeadingPitchRange(heading, pitch, range));
   */
 
-  primitive_CesiumOSMBuildings = addOSMBuildings(viewer);
+  primitive_CesiumOsmBuildings = addOSMBuildings(viewer);
 
   // These are all the radar points from this flight.
   const trajectoryData = JSON.parse(JSON.stringify(trajectory));
@@ -112,8 +112,8 @@ export const destroyDemoFlightTracker = (viewer) => {
   viewer.entities.removeAll();
 
   // remove the Cesium OSM Buildings.
-  removePrimitive(viewer, primitive_CesiumOSMBuildings);
-  primitive_CesiumOSMBuildings = undefined;
+  removePrimitive(viewer, primitive_CesiumOsmBuildings);
+  primitive_CesiumOsmBuildings = undefined;
 
   hide_Animation_Timeline_Container(viewer);
 };

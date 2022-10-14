@@ -29,6 +29,7 @@ export default function initCesium(viewerType = '3D') {
     }),
     // Show Columbus View map with Web Mercator projection
     // mapProjection: new Cesium.WebMercatorProjection(),
+    // showRenderLoopErrors: false, // TODO
   };
 
   // Initialize the Cesium Viewer in the HTML element with the containerID.

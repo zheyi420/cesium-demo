@@ -10,11 +10,10 @@ import initCesium from '../utils/cesium/initCesium';
 import 'cesium/Build/Cesium/Widgets/widgets.css';
 import GalleryPanel from './GalleryPanel.vue';
 import DemoProposedBuilding from './DemoProposedBuilding.vue';
-import {
-  demoQuickStart, destroyDemoQuickStart, demoFlightTracker, destroyDemoFlightTracker, demoProposedBuilding, destroyDemoProposedBuilding,
-} from '../demo';
-import { useCurDemoStore, usePrimitiveStore } from '../stores/states';
-
+import { demoQuickStart, destroyDemoQuickStart } from '../demo/demoQuickStart';
+import { demoFlightTracker, destroyDemoFlightTracker } from '../demo/demoFlightTracker';
+import { demoProposedBuilding, destroyDemoProposedBuilding } from '../demo/demoProposedBuilding';
+import { useCurDemoStore } from '../stores/states';
 import { ConsoleLog } from '../utils';
 
 // We are defining a store because the store won't be created until use...Store() is called inside of setup().
@@ -27,19 +26,16 @@ const storeCurDemo = useCurDemoStore();
 // Note you can destructure actions directly from the store as they are bound to the store itself too.
 // const { activateDemo, destroyCurDemo } = storeCurDemo;
 
-const storeCurPrimitive = usePrimitiveStore();
-
 let viewer;
 
 const isCurDemoProposedBuilding = computed(() => {
+  if (!storeCurDemo.hasDemoRun) return false;
   const demoCaseInfo = storeCurDemo.getCurDemo.categoryLabel.concat('-', storeCurDemo.getCurDemo.label);
-
-  return storeCurDemo.hasDemoRun && demoCaseInfo === 'Beginner-Proposed Building' && storeCurPrimitive.hasPrimitiveStore;
+  return storeCurDemo.hasDemoRun && demoCaseInfo === 'Beginner-Proposed Building';
 });
 
 const demoCase = (caseInfo) => {
-  ConsoleLog('CesiumContainer run demoCase().');
-  ConsoleLog('the current demo which will be run:', caseInfo.label);
+  ConsoleLog('CesiumContainer run demoCase(): ', caseInfo.label);
 
   switch (caseInfo.categoryLabel.concat('-', caseInfo.label)) {
     case 'Beginner-QuickStart': {
@@ -64,8 +60,7 @@ const demoCase = (caseInfo) => {
 };
 
 const destroyCurDemo = () => {
-  ConsoleLog('CesiumContainer run destroyCurDemo().');
-  ConsoleLog('the current demo which need to be destroyed:', JSON.parse(JSON.stringify(storeCurDemo.getCurDemo)));
+  ConsoleLog('CesiumContainer run destroyCurDemo():', JSON.parse(JSON.stringify(storeCurDemo.getCurDemo)));
 
   switch (storeCurDemo.getCurDemo.categoryLabel.concat('-', storeCurDemo.getCurDemo.label)) {
     case 'Beginner-QuickStart': {
