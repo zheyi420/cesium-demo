@@ -13,6 +13,7 @@ import DemoProposedBuilding from './DemoProposedBuilding.vue';
 import { demoQuickStart, destroyDemoQuickStart } from '../demo/demoQuickStart';
 import { demoFlightTracker, destroyDemoFlightTracker } from '../demo/demoFlightTracker';
 import { demoProposedBuilding, destroyDemoProposedBuilding } from '../demo/demoProposedBuilding';
+import { demoShowEntities, destroyDemoShowEntities } from '../demo/demoShowEntities';
 import { useCurDemoStore } from '../stores/states';
 import { ConsoleLog } from '../utils';
 
@@ -50,6 +51,10 @@ const demoCase = (caseInfo) => {
       demoProposedBuilding(viewer);
       break;
     }
+    case 'Beginner-Show Entities': {
+      demoShowEntities(viewer);
+      break;
+    }
     default: {
       ConsoleLog("demoCase() didn't match the case info.");
       break;
@@ -73,6 +78,10 @@ const destroyCurDemo = () => {
     }
     case 'Beginner-Proposed Building': {
       destroyDemoProposedBuilding(viewer);
+      break;
+    }
+    case 'Beginner-Show Entities': {
+      destroyDemoShowEntities(viewer);
       break;
     }
     default: {

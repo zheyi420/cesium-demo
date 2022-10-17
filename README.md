@@ -82,9 +82,13 @@ npm run lint
 - [ ] use [JSDoc](https://jsdoc.app/).
 
 ### Function
-- [ ] Visualize a Proposed Building in a 3D City.
-	- [ ] do not use Cesium ion to host and stream geojson file, load locally or from publicDir.
-- [ ]  Collapse the *GalleryPanel* after run new demo.
+
+- [x] Visualize a Proposed Building in a 3D City.
+  - [ ] do not use Cesium ion to host and stream geojson file, load locally or from publicDir.
+- [ ] Show Entities
+	- [ ] use imported geojson data to generate entity.
+
+- [ ] Collapse the *GalleryPanel* after run new demo.
 
 ### utils
 

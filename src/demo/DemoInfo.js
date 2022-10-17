@@ -14,6 +14,10 @@ export const GalleryList = [
         label: 'Proposed Building',
         description: 'Visualize a Proposed Building in a 3D City',
       },
+      {
+        label: 'Show Entities',
+        description: 'Show Entities',
+      },
     ],
   },
   {
