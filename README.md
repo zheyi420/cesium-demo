@@ -83,15 +83,21 @@ npm run lint
 
 ### Function
 
+- [ ] Add control that the airplane entity could be tracked again.
 - [x] Visualize a Proposed Building in a 3D City.
   - [ ] do not use Cesium ion to host and stream geojson file, load locally or from publicDir.
 - [ ] Show Entities
 	- [ ] use imported geojson data to generate entity.
-
 - [ ] Collapse the *GalleryPanel* after run new demo.
+- [ ] 
 
 ### utils
 
 - [ ] Add correction tool to correct the orientation of the camera.
 - [ ] Add a panel to indicate directions of south, east, north, west.
-- [ ] Add a panel to indicate the longitude, latitude and height of the camera.
+- [ ] Add a panel to indicate the longitude, latitude and height of the camera or the point u choose.
+
+### GIS knowledge
+
+- [ ] [ArcType](https://cesium.com/learn/cesiumjs/ref-doc/global.html?classFilter=ArcType#ArcType): figure out the geodesic, rhumb and loxodrome path.
+- [ ] 

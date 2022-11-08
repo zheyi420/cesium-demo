@@ -3,6 +3,7 @@ import trajectory from './assets/trajectorySanFrancisco2Copenhagen.json';
 import {
   addOSMBuildings, removePrimitive, display_Animation_Timeline_Container, hide_Animation_Timeline_Container, adjust_Animation_Timeline_toNow,
 } from '../utils/cesium';
+import { ConsoleLog } from '../utils';
 
 let primitive_CesiumOsmBuildings;
 
@@ -61,7 +62,7 @@ export const demoFlightTracker = (viewer) => {
   // Speed up the playback speed 50x.
   // viewer.clock.multiplier = 50;
   // Start playing the scene.
-  viewer.clock.shouldAnimate = false;
+  viewer.clock.shouldAnimate = true;
 
   // The SampledPositionedProperty stores the position and timestamp for each sample along the radar sample series.
   const positionProperty = new Cesium.SampledPositionProperty();
@@ -116,6 +117,8 @@ export const destroyDemoFlightTracker = (viewer) => {
   primitive_CesiumOsmBuildings = undefined;
 
   hide_Animation_Timeline_Container(viewer);
+
+  // ConsoleLog('viewer.trackedEntity', viewer.trackedEntity); // undefined
 };
 
 /**

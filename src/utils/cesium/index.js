@@ -93,3 +93,41 @@ export const adjust_Animation_Timeline_toNow = (viewer) => {
 export const correct_camera_orientation = (viewer) => {
   // TODO
 };
+
+/**
+ * Cesium.EntityCollection.CollectionChangedEventCallback(collection, added, removed, changed)
+ * https://cesium.com/learn/cesiumjs/ref-doc/EntityCollection.html#.CollectionChangedEventCallback
+ * @param {*} collection
+ * @param {*} added
+ * @param {*} removed
+ * @param {*} changed
+ */
+export const onChanged = (collection, added, removed, changed) => {
+  const hasAdded = added.length > 0;
+  const hasRemoved = removed.length > 0;
+  const hasChanged = changed.length > 0;
+
+  if (hasAdded) {
+    let msgAdded = 'Added ids';
+    for (let i = 0; i < added.length; i++) {
+      msgAdded += `\n${i + 1}: ${added[i].id}`;
+    }
+    ConsoleLog(msgAdded);
+  }
+
+  if (hasRemoved) {
+    let msgRemoved = 'Removed ids';
+    for (let i = 0; i < removed.length; i++) {
+      msgRemoved += `\n${i + 1}: ${removed[i].id}`;
+    }
+    ConsoleLog(msgRemoved);
+  }
+
+  if (hasChanged) {
+    let msgChanged = 'Changed ids';
+    for (let i = 0; i < changed.length; i++) {
+      msgChanged += `\n${i + 1}: ${changed[i].id}`;
+    }
+    ConsoleLog(msgChanged);
+  }
+};
