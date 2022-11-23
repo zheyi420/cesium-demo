@@ -27,6 +27,3 @@ coverage
 *.njsproj
 *.sln
 *.sw?
-
-# Static files, Don't submit it for now
-public/cesium/*
