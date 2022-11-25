@@ -10,7 +10,8 @@ export default function initCesium(viewerType = '3D') {
   // * node_modules/cesium/Build/Cesium/Widgets
   // The window.CESIUM_BASE_URL global variable must be set before CesiumJS is imported.
   // It must point to the URL where those four directories are served.
-  window.CESIUM_BASE_URL = '/cesium/Build/Cesium/';
+  // window.CESIUM_BASE_URL = '/cesium/Build/Cesium/';
+  window.CESIUM_BASE_URL = `${import.meta.env.VITE_BUILD_PATH_PREFIX}/cesium/Build/Cesium/`;
 
   Cesium.Ion.defaultAccessToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiIzNmU5ZTZhOS1lOThmLTRlM2QtYjg2NS1iMGQ1Y2JiZGQyYzUiLCJpZCI6MTA4NDQ0LCJpYXQiOjE2NjM1Njc5OTR9.CuE8Bqn8X02o64kfjVHZUiUU1bKiNeqWYXoY7e5_BCc';
 

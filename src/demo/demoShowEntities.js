@@ -1,7 +1,6 @@
 // the Demo Show Entities
 // detail: https://cesium.com/learn/cesiumjs-learn/cesiumjs-creating-entities/
 
-import { ConsoleLog } from '../utils';
 import { onChanged } from '../utils/cesium';
 import Cesium from '../utils/cesium/Cesium';
 import imgCesiumLogo from './assets/images/Cesium_Logo_Color.jpg';

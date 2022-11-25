@@ -54,7 +54,7 @@ export const demoFlightTracker = (viewer) => {
   const totalSeconds = timeStepInSeconds * (trajectoryData.length - 1);
   const start = Cesium.JulianDate.fromIso8601('2020-03-09T23:10:00Z');
   const stop = Cesium.JulianDate.addSeconds(start, totalSeconds, new Cesium.JulianDate());
-  console.log('startTime: %o, stopTime: %o', start, stop);
+  // ConsoleLog('startTime: %o, stopTime: %o', start, stop);
   viewer.clock.startTime = start.clone();
   viewer.clock.stopTime = stop.clone();
   viewer.clock.currentTime = start.clone();
