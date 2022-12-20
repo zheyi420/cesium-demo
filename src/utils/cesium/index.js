@@ -110,7 +110,7 @@ export const onChanged = (collection, added, removed, changed) => {
   if (hasAdded) {
     let msgAdded = 'Added ids';
     for (let i = 0; i < added.length; i++) {
-      msgAdded += `\n${i + 1}: ${added[i].id}`;
+      msgAdded += `\n${i + 1}: ${added[i].id} - ${added[i].name}`;
     }
     ConsoleLog(msgAdded);
   }
@@ -123,11 +123,142 @@ export const onChanged = (collection, added, removed, changed) => {
     ConsoleLog(msgRemoved);
   }
 
+  /* TODO has too much changes while animating label
   if (hasChanged) {
     let msgChanged = 'Changed ids';
     for (let i = 0; i < changed.length; i++) {
       msgChanged += `\n${i + 1}: ${changed[i].id}`;
     }
     ConsoleLog(msgChanged);
+  } */
+};
+
+/**
+ * Add entities to the collection.
+ */
+export const addEntities = (viewer, collection) => {
+  for (const key in collection) {
+    if (Object.prototype.hasOwnProperty.call(collection, key)) {
+      viewer.entities.add(collection[key]);
+    }
   }
+};
+
+/**
+ * computue the coordinate of 7 outer vertex and 7 inner vertex.
+ * @param {Number} arms - the number of outer vertex.
+ * @param {Number} rOuter - the radius of the outer vertex.
+ * @param {Number} rInner - the radius of the inner vertex.
+ * @returns {Array}
+ */
+export const computeStar = (arms, rOuter, rInner) => {
+  const angle = Math.PI / arms;
+  const length = 2 * arms;
+  const positions = new Array(length);
+  for (let i = 0; i < length; i++) {
+    const r = i % 2 === 0 ? rOuter : rInner;
+    positions[i] = new Cesium.Cartesian2(
+      Math.cos(i * angle) * r,
+      Math.sin(i * angle) * r,
+    );
+  }
+  return positions;
+};
+
+export const computeCircle = (radius) => {
+  const positions = [];
+  for (let i = 0; i < 360; i++) {
+    const radians = Cesium.Math.toRadians(i);
+    positions.push(
+      new Cesium.Cartesian2(
+        radius * Math.cos(radians),
+        radius * Math.sin(radians),
+      ),
+    );
+  }
+  return positions;
+};
+
+let rotation = Cesium.Math.toRadians(30);
+
+export const getRotationValue = () => {
+  rotation += 0.005;
+  return rotation;
+};
+
+/**
+ * Returns the top-most entity at the provided window coordinates
+ * or undefined if no entity is at that location.
+ *
+ * @param {Cartesian2} windowPosition The window coordinates.
+ * @returns {Entity} The picked entity or undefined.
+ */
+export const pickEntity = (viewer, windowPosition) => {
+  const picked = viewer.scene.pick(windowPosition);
+  if (Cesium.defined(picked)) {
+    const id = Cesium.defaultValue(picked.id, picked.primitive.id);
+    if (id instanceof Cesium.Entity) { // TODO ??? does it work???
+      return id;
+    }
+  }
+  return undefined;
+};
+
+/**
+ * Returns the list of entities at the provided window coordinates.
+ * The entities are sorted front to back by their visual order.
+ *
+ * @param {Cartesian2} windowPosition The window coordinates.
+ * @returns {Entity[]} The picked entities or undefined.
+ */
+export const drillPickEntities = (viewer, windowPosition) => {
+  let i;
+  let entity; // temp using
+  let picked; // temp using
+  const pickedPrimitives = viewer.scene.drillPick(windowPosition);
+  const { length } = pickedPrimitives;
+  const result = [];
+  const hash = {};
+
+  for (i = 0; i < length; i++) {
+    picked = pickedPrimitives[i];
+    entity = Cesium.defaultValue(picked.id, picked.primitive.id);
+    if (entity instanceof Cesium.Entity && !Cesium.defined(hash[entity.id])) {
+      result.push(entity);
+      hash[entity.id] = true;
+    }
+  }
+  return result;
+};
+
+/**
+ *
+ * @param {*} viewer
+ * @param {*} entity
+ * @returns A function that will remove this event listener when invoked.
+ */
+export const animateLabel = (viewer, entity) => {
+  let outlineDelta = 0.1;
+  let fontDelta = -1.0;
+  let fontSize = 20.0;
+  const minFontSize = 1.0;
+  const maxFontSize = 48.0;
+
+  const labelListenerCallback = viewer.scene.preUpdate.addEventListener((scene, time) => {
+    entity.label.outlineWidth += outlineDelta;
+    if (
+      entity.label.outlineWidth >= 4.0
+        || entity.label.outlineWidth <= 0.0
+    ) {
+      outlineDelta *= -1.0;
+    }
+
+    fontSize += fontDelta;
+    if (fontSize >= maxFontSize || fontSize <= minFontSize) {
+      fontDelta *= -1.0;
+    }
+    entity.label.font = `${fontSize}px Calibri`;
+  });
+
+  return labelListenerCallback;
 };

@@ -1,10 +1,19 @@
 // the Demo Show Entities
 // detail: https://cesium.com/learn/cesiumjs-learn/cesiumjs-creating-entities/
 
-import { onChanged } from '../utils/cesium';
+import {
+  addEntities, onChanged, computeStar, computeCircle, getRotationValue, animateLabel,
+} from '../utils/cesium';
+import { ConsoleLog } from '../utils';
 import Cesium from '../utils/cesium/Cesium';
 import imgCesiumLogo from './assets/images/Cesium_Logo_Color.jpg';
 import imgRickMorty from './assets/images/rick-and-morty-portal.jpg';
+import imgPhiladelphiaPhillies from './assets/images/Philadelphia_Phillies.png';
+import img_url_Facility from './assets/images/facility.gif';
+import imgCesiumLogoOverlay from './assets/images/Cesium_Logo_overlay.png';
+import imgWhiteShapes from './assets/images/whiteShapes.png';
+
+const entities = {};
 
 const positions_wyoming = Cesium.Cartesian3.fromDegreesArray([
   -109.080842, 45.002073,
@@ -20,7 +29,7 @@ const positions_wyoming = Cesium.Cartesian3.fromDegreesArray([
   -111.047063, 44.476286,
   -111.05254, 45.002073]);
 
-const entity_polygon_wyoming = new Cesium.Entity({
+entities.entity_polygon_wyoming = new Cesium.Entity({
   name: 'polygon',
   polygon: {
     hierarchy: new Cesium.PolygonHierarchy(positions_wyoming),
@@ -49,9 +58,36 @@ const entity_polygon_wyoming = new Cesium.Entity({
   },
   // more detail about description, iframe
   // https://cesium.com/learn/cesiumjs-learn/cesiumjs-creating-entities/#selection-and-description
-  // https://web.dev/sandboxed-iframes/
+  // [Play safely in sandboxed IFrames](https://web.dev/sandboxed-iframes/)
   // TODO need to adjust the style height of the ele iframe
-  description: `
+  description: import.meta.env.VITE_BUILD_PATH_PREFIX === '/cesium-demo' ? `
+    <img
+      width="50%"
+      style="float:left; margin: 1em 1em 1em 0;"
+      src="/cesium-demo/img/Flag_of_Wyoming.png"/>
+    <p>
+      Wyoming is a state in the mountain region of the Western United States.
+    </p>
+    <p>
+      Wyoming is the 10th most extensive, but the least populous 
+      and the second least densely populated of the 50 United 
+      States. The western two thirds of the state is covered mostly 
+      with the mountain ranges and rangelands in the foothills of 
+      the eastern Rocky Mountains, while the eastern third of the 
+      state is high elevation prairie known as the High Plains. 
+      Cheyenne is the capital and the most populous city in Wyoming, 
+      with a population estimate of 63,624 in 2017.
+    </p>
+    <p>
+      Source: 
+      <a
+        style="color: WHITE"
+        target="_blank"
+        href="http://en.wikipedia.org/wiki/Wyoming"
+      >
+        Wikpedia
+      </a>
+    </p>` : `
     <img
       width="50%"
       style="float:left; margin: 1em 1em 1em 0;"
@@ -81,7 +117,7 @@ const entity_polygon_wyoming = new Cesium.Entity({
     </p>`,
 });
 
-const entity_polygon_green = new Cesium.Entity({
+entities.entity_polygon_green = new Cesium.Entity({
   name: 'polygon',
   description: 'Green extruded polygon',
   polygon: {
@@ -97,7 +133,7 @@ const entity_polygon_green = new Cesium.Entity({
   },
 });
 
-const entity_polygon_textured = new Cesium.Entity({
+entities.entity_polygon_textured = new Cesium.Entity({
   name: 'polygon',
   description: 'Textured polygon with per-position heights and custom texture coordinates',
   polygon: {
@@ -123,7 +159,7 @@ const entity_polygon_textured = new Cesium.Entity({
   },
 });
 
-const entity_polygon_textured_withHeight = new Cesium.Entity({
+entities.entity_polygon_textured_withHeight = new Cesium.Entity({
   name: 'polygon',
   description: 'Extruded textured polygon with per-position heights and custom texture coordinates',
   polygon: {
@@ -149,7 +185,7 @@ const entity_polygon_textured_withHeight = new Cesium.Entity({
   },
 });
 
-const entity_polygon_textured_withHoles = new Cesium.Entity({
+entities.entity_polygon_textured_withHoles = new Cesium.Entity({
   name: 'polygon',
   description: 'Textured polygon with per-position heights, holes and custom texture coordinates',
   polygon: {
@@ -200,7 +236,7 @@ const entity_polygon_textured_withHoles = new Cesium.Entity({
   },
 });
 
-const entity_polygon_withHoles = new Cesium.Entity({
+entities.entity_polygon_withHoles = new Cesium.Entity({
   name: 'polygon',
   description: 'Blue polygon with holes',
   polygon: {
@@ -248,7 +284,7 @@ const entity_polygon_withHoles = new Cesium.Entity({
   },
 });
 
-const entity_polygon_vertical = new Cesium.Entity({
+entities.entity_polygon_vertical = new Cesium.Entity({
   name: 'polygon',
   description: 'Cyan vertical polygon',
   polygon: {
@@ -264,7 +300,7 @@ const entity_polygon_vertical = new Cesium.Entity({
   },
 });
 
-const entity_polygon_withArcType_NONE = new Cesium.Entity({
+entities.entity_polygon_withArcType_NONE = new Cesium.Entity({
   name: 'polygon',
   description: 'Polygon edges follow straight line that does not conform to the surface of the ellipsoid.',
   polygon: {
@@ -281,7 +317,7 @@ const entity_polygon_withArcType_NONE = new Cesium.Entity({
     // arcType: Cesium.ArcType.NONE,
   },
 });
-const entity_polygon_withArcType_GEODESIC = new Cesium.Entity({
+entities.entity_polygon_withArcType_GEODESIC = new Cesium.Entity({
   name: 'polygon',
   description: 'Polygon edges follow geodesic path',
   polygon: {
@@ -298,7 +334,7 @@ const entity_polygon_withArcType_GEODESIC = new Cesium.Entity({
     arcType: Cesium.ArcType.GEODESIC, // TODO not quite understand the meaning of these three ArcType. Follow up.
   },
 });
-const entity_polygon_withArcType_RHUMB = new Cesium.Entity({
+entities.entity_polygon_withArcType_RHUMB = new Cesium.Entity({
   name: 'polygon',
   description: 'Polygon edges follow rhumb or loxodrome path',
   polygon: {
@@ -316,7 +352,7 @@ const entity_polygon_withArcType_RHUMB = new Cesium.Entity({
   },
 });
 
-const entity_box_blue = new Cesium.Entity({
+entities.entity_box_blue = new Cesium.Entity({
   name: 'box',
   description: 'Blue box',
   position: Cesium.Cartesian3.fromDegrees(-114.0, 37.0, 300000.0),
@@ -326,7 +362,7 @@ const entity_box_blue = new Cesium.Entity({
   },
 });
 
-const entity_box_red = new Cesium.Entity({
+entities.entity_box_red = new Cesium.Entity({
   name: 'box',
   description: 'Red box with black outline',
   position: Cesium.Cartesian3.fromDegrees(-107.0, 37.0, 300000.0),
@@ -339,7 +375,7 @@ const entity_box_red = new Cesium.Entity({
   },
 });
 
-const entity_box_outlineOnly = new Cesium.Entity({
+entities.entity_box_outlineOnly = new Cesium.Entity({
   name: 'box',
   description: 'Yellow box outline',
   position: Cesium.Cartesian3.fromDegrees(-100.0, 37.0, 300000.0),
@@ -351,7 +387,7 @@ const entity_box_outlineOnly = new Cesium.Entity({
   },
 });
 
-const entity_circle_green = new Cesium.Entity({
+entities.entity_circle_green = new Cesium.Entity({
   name: 'ellipse',
   description: 'Green circle at height with outline',
   position: Cesium.Cartesian3.fromDegrees(-111.0, 40.0, 100000.0),
@@ -364,7 +400,7 @@ const entity_circle_green = new Cesium.Entity({
   },
 });
 
-const entity_ellipse_red = new Cesium.Entity({
+entities.entity_ellipse_red = new Cesium.Entity({
   name: 'ellipse',
   description: 'Red ellipse on surface',
   position: Cesium.Cartesian3.fromDegrees(-103.0, 40.0),
@@ -376,12 +412,10 @@ const entity_ellipse_red = new Cesium.Entity({
   },
 });
 
-const { ellipse } = entity_ellipse_red;
-
-ellipse.material = imgRickMorty; // a ImageMaterialProperty is created for us automatically on assignment.
+entities.entity_ellipse_red.ellipse.material = imgRickMorty; // a ImageMaterialProperty is created for us automatically on assignment.
 
 // For more complex materials, we need to create a MaterialProperty instance ourselves.
-const entity_ellipse_checkerboard = new Cesium.Entity({
+entities.entity_ellipse_checkerboard = new Cesium.Entity({
   name: 'ellipse',
   description: 'Checkerboard ellipse on surface',
   position: Cesium.Cartesian3.fromDegrees(-103.0, 35.0),
@@ -396,7 +430,7 @@ const entity_ellipse_checkerboard = new Cesium.Entity({
   },
 });
 
-const entity_ellipse_stripe = new Cesium.Entity({
+entities.entity_ellipse_stripe = new Cesium.Entity({
   name: 'ellipse',
   description: 'Stripe ellipse on surface',
   position: Cesium.Cartesian3.fromDegrees(-103.0, 30.0),
@@ -411,7 +445,7 @@ const entity_ellipse_stripe = new Cesium.Entity({
   },
 });
 
-const entity_ellipse_grid = new Cesium.Entity({
+entities.entity_ellipse_grid = new Cesium.Entity({
   name: 'ellipse',
   description: 'Grid ellipse on surface',
   position: Cesium.Cartesian3.fromDegrees(-103.0, 25.0),
@@ -430,7 +464,7 @@ const entity_ellipse_grid = new Cesium.Entity({
 // TODO can't get a ellipse with outline only and also can be clamped to the terrain.
 // Entity geometry outlines are unsupported on terrain. Outlines will be disabled.
 // To enable outlines, disable geometry terrain clamping by explicitly setting height to 0.
-const entity_ellipse_outlineOnly = new Cesium.Entity({
+entities.entity_ellipse_outlineOnly = new Cesium.Entity({
   name: 'ellipse',
   description: 'ellipse with outline only',
   position: Cesium.Cartesian3.fromDegrees(-103.0, 20.0),
@@ -450,7 +484,7 @@ const entity_ellipse_outlineOnly = new Cesium.Entity({
   },
 });
 
-const entity_ellipse_blue_extruded = new Cesium.Entity({
+entities.entity_ellipse_blue_extruded = new Cesium.Entity({
   name: 'ellipse',
   description: 'Blue translucent, rotated, and extruded ellipse with outline',
   position: Cesium.Cartesian3.fromDegrees(-95.0, 40.0),
@@ -469,7 +503,7 @@ const entity_ellipse_blue_extruded = new Cesium.Entity({
   },
 });
 
-const entity_corridor_red = new Cesium.Entity({
+entities.entity_corridor_red = new Cesium.Entity({
   name: 'corridor',
   description: 'Red corridor on surface with rounded corners',
   corridor: {
@@ -484,7 +518,7 @@ const entity_corridor_red = new Cesium.Entity({
   },
 });
 
-const entity_corridor_green = new Cesium.Entity({
+entities.entity_corridor_green = new Cesium.Entity({
   name: 'corridor',
   description: 'Green corridor at height with mitered corners and outline',
   corridor: {
@@ -501,7 +535,7 @@ const entity_corridor_green = new Cesium.Entity({
   },
 });
 
-const entity_corridor_blue = new Cesium.Entity({
+entities.entity_corridor_blue = new Cesium.Entity({
   name: 'corridor',
   description: 'Blue extruded corridor with beveled corners and outline',
   corridor: {
@@ -520,7 +554,7 @@ const entity_corridor_blue = new Cesium.Entity({
   },
 });
 
-const entity_cylinder_green = new Cesium.Entity({
+entities.entity_cylinder_green = new Cesium.Entity({
   name: 'cylinder',
   description: 'Green cylinder with black outline',
   position: Cesium.Cartesian3.fromDegrees(-90.0, 45.0, 200000.0),
@@ -534,7 +568,7 @@ const entity_cylinder_green = new Cesium.Entity({
   },
 });
 
-const entity_cone_red = new Cesium.Entity({
+entities.entity_cone_red = new Cesium.Entity({
   name: 'cylinder',
   description: 'Red cone',
   position: Cesium.Cartesian3.fromDegrees(-97.0, 45.0, 200000.0),
@@ -548,7 +582,7 @@ const entity_cone_red = new Cesium.Entity({
   },
 });
 
-const entity_polyline_withArcType_NONE = new Cesium.Entity({
+entities.entity_polyline_withArcType_NONE = new Cesium.Entity({
   name: 'polyline',
   description: 'Polyline segments follow straight line that does not conform to the surface of the ellipsoid.',
   polyline: {
@@ -560,7 +594,7 @@ const entity_polyline_withArcType_NONE = new Cesium.Entity({
   },
 });
 
-const entity_polyline_withArcType_GEODESIC = new Cesium.Entity({
+entities.entity_polyline_withArcType_GEODESIC = new Cesium.Entity({
   name: 'polyline',
   description: 'Polyline segments follow geodesic path',
   polyline: {
@@ -573,7 +607,7 @@ const entity_polyline_withArcType_GEODESIC = new Cesium.Entity({
   },
 });
 
-const entity_polyline_withArcType_RHUMB = new Cesium.Entity({
+entities.entity_polyline_withArcType_RHUMB = new Cesium.Entity({
   name: 'polyline',
   description: 'Polyline segments follow rhumb or loxodrome path',
   polyline: {
@@ -585,7 +619,7 @@ const entity_polyline_withArcType_RHUMB = new Cesium.Entity({
   },
 });
 
-const entity_polyline_orange_outlined = new Cesium.Entity({
+entities.entity_polyline_orange_outlined = new Cesium.Entity({
   name: 'polyline',
   description: 'Orange line with black outline at height and following the surface',
   polyline: {
@@ -599,7 +633,7 @@ const entity_polyline_orange_outlined = new Cesium.Entity({
   },
 });
 
-const entity_polyline_purple_arrow = new Cesium.Entity({
+entities.entity_polyline_purple_arrow = new Cesium.Entity({
   name: 'polyline',
   description: 'Purple straight arrow at height',
   polyline: {
@@ -612,7 +646,7 @@ const entity_polyline_purple_arrow = new Cesium.Entity({
   },
 });
 
-const entity_polyline_dashed = new Cesium.Entity({
+entities.entity_polyline_dashed = new Cesium.Entity({
   name: 'polyline',
   description: 'CYAN dashed line',
   polyline: {
@@ -628,7 +662,7 @@ const entity_polyline_dashed = new Cesium.Entity({
   },
 });
 
-const entity_polyline_glow = new Cesium.Entity({
+entities.entity_polyline_glow = new Cesium.Entity({
   name: 'polyline',
   description: 'Glowing blue line on the surface',
   polyline: {
@@ -643,42 +677,7 @@ const entity_polyline_glow = new Cesium.Entity({
   },
 });
 
-const computeCircle = (radius) => {
-  const positions = [];
-  for (let i = 0; i < 360; i++) {
-    const radians = Cesium.Math.toRadians(i);
-    positions.push(
-      new Cesium.Cartesian2(
-        radius * Math.cos(radians),
-        radius * Math.sin(radians),
-      ),
-    );
-  }
-  return positions;
-};
-
-/**
- * computue the coordinate of 7 outer vertex and 7 inner vertex.
- * @param {Number} arms - the number of outer vertex.
- * @param {Number} rOuter - the radius of the outer vertex.
- * @param {Number} rInner - the radius of the inner vertex.
- * @returns {Array}
- */
-const computeStar = (arms, rOuter, rInner) => {
-  const angle = Math.PI / arms;
-  const length = 2 * arms;
-  const positions = new Array(length);
-  for (let i = 0; i < length; i++) {
-    const r = i % 2 === 0 ? rOuter : rInner;
-    positions[i] = new Cesium.Cartesian2(
-      Math.cos(i * angle) * r,
-      Math.sin(i * angle) * r,
-    );
-  }
-  return positions;
-};
-
-const entity_polylineVolume_tube = new Cesium.Entity({
+entities.entity_polylineVolume_tube = new Cesium.Entity({
   name: 'polylineVolume',
   description: 'Red tube with rounded corners',
   polylineVolume: {
@@ -692,7 +691,7 @@ const entity_polylineVolume_tube = new Cesium.Entity({
   },
 });
 
-const entity_polylineVolume_box = new Cesium.Entity({
+entities.entity_polylineVolume_box = new Cesium.Entity({
   name: 'polylineVolume',
   description: 'Green box with beveled corners and outline',
   polylineVolume: {
@@ -714,7 +713,7 @@ const entity_polylineVolume_box = new Cesium.Entity({
   },
 });
 
-const entity_polylineVolume_star = new Cesium.Entity({
+entities.entity_polylineVolume_star = new Cesium.Entity({
   name: 'polylineVolume',
   description: 'Blue star with mitered corners and outline',
   polylineVolume: {
@@ -729,7 +728,7 @@ const entity_polylineVolume_star = new Cesium.Entity({
   },
 });
 
-const entity_rectangle_red = new Cesium.Entity({
+entities.entity_rectangle_red = new Cesium.Entity({
   name: 'rectangle',
   description: 'Red translucent rectangle',
   rectangle: {
@@ -738,7 +737,7 @@ const entity_rectangle_red = new Cesium.Entity({
   },
 });
 
-const entity_rectangle_translucent_green = new Cesium.Entity({
+entities.entity_rectangle_translucent_green = new Cesium.Entity({
   name: 'rectangle',
   description: 'Green translucent, rotated, and extruded rectangle at height with outline',
   rectangle: {
@@ -752,14 +751,7 @@ const entity_rectangle_translucent_green = new Cesium.Entity({
   },
 });
 
-let rotation = Cesium.Math.toRadians(30);
-
-const getRotationValue = () => {
-  rotation += 0.005;
-  return rotation;
-};
-
-const entity_rectangle_rotating_withTexture = new Cesium.Entity({
+entities.entity_rectangle_rotating_withTexture = new Cesium.Entity({
   name: 'rectangle',
   description: 'Rotating rectangle with rotating texture coordinate',
   rectangle: {
@@ -773,7 +765,7 @@ const entity_rectangle_rotating_withTexture = new Cesium.Entity({
   },
 });
 
-const entity_ellipsoid_blue = new Cesium.Entity({
+entities.entity_ellipsoid_blue = new Cesium.Entity({
   name: 'ellipsoid',
   description: 'Blue ellipsoid',
   position: Cesium.Cartesian3.fromDegrees(-5, 22.18, 300000.0),
@@ -784,7 +776,7 @@ const entity_ellipsoid_blue = new Cesium.Entity({
   },
 });
 
-const entity_sphere_red = new Cesium.Entity({
+entities.entity_sphere_red = new Cesium.Entity({
   name: 'ellipsoid',
   description: 'Red sphere with black outline',
   position: Cesium.Cartesian3.fromDegrees(0, 22.18, 300000.0),
@@ -796,7 +788,7 @@ const entity_sphere_red = new Cesium.Entity({
   },
 });
 
-const entity_ellipsoid_outlineOnly = new Cesium.Entity({
+entities.entity_ellipsoid_outlineOnly = new Cesium.Entity({
   name: 'ellipsoid',
   description: 'Yellow ellipsoid outline',
   position: Cesium.Cartesian3.fromDegrees(5, 21.69, 300000.0),
@@ -810,7 +802,7 @@ const entity_ellipsoid_outlineOnly = new Cesium.Entity({
   },
 });
 
-const entity_wall_red_height = new Cesium.Entity({
+entities.entity_wall_red_height = new Cesium.Entity({
   name: 'wall',
   description: 'Red wall at height',
   wall: {
@@ -823,7 +815,7 @@ const entity_wall_red_height = new Cesium.Entity({
   },
 });
 
-const entity_wall_green_surface = new Cesium.Entity({
+entities.entity_wall_green_surface = new Cesium.Entity({
   name: 'wall',
   description: 'Green wall from surface with outline',
   wall: {
@@ -839,7 +831,7 @@ const entity_wall_green_surface = new Cesium.Entity({
   },
 });
 
-const entity_wall_blue_sawtooth = new Cesium.Entity({
+entities.entity_wall_blue_sawtooth = new Cesium.Entity({
   name: 'wall',
   description: 'Blue wall with sawtooth heights and outline',
   wall: {
@@ -864,70 +856,337 @@ const entity_wall_blue_sawtooth = new Cesium.Entity({
   },
 });
 
-const entities = {};
+entities.entity_point_CitizensBankPark = new Cesium.Entity({
+  name: 'Citizens Bank Park',
+  position: Cesium.Cartesian3.fromDegrees(-75.166493, 39.9060534),
+  billboard: {
+    image: imgPhiladelphiaPhillies,
+    width: 64,
+    height: 64,
+  },
+  label: {
+    text: 'Citizens Bank Park',
+    font: '14pt monospace',
+    style: Cesium.LabelStyle.FILL_AND_OUTLINE,
+    outlineWidth: 2,
+    verticalOrigin: Cesium.VerticalOrigin.TOP,
+    pixelOffset: new Cesium.Cartesian2(0, 32),
+  },
+});
+
+entities.entity_point_LincolnFinancialField = new Cesium.Entity({
+  name: 'Lincoln Financial Field',
+  position: Cesium.Cartesian3.fromDegrees(-75.16745113181783, 39.900830517357456),
+  point: {
+    pixelSize: 5,
+    color: Cesium.Color.RED,
+    outlineColor: Cesium.Color.WHITE,
+    outlineWidth: 2,
+  },
+  label: {
+    text: 'Lincoln Financial Field',
+    font: '14pt monospace',
+    style: Cesium.LabelStyle.FILL_AND_OUTLINE,
+    outlineWidth: 2,
+    verticalOrigin: Cesium.VerticalOrigin.BOTTOM,
+    pixelOffset: new Cesium.Cartesian2(0, -9),
+  },
+});
+
+// Sandcastle examples for more customization options about Labels.
+// https://sandcastle.cesium.com/?src=Labels.html
+
+entities.entity_point_city_chengdu = new Cesium.Entity({
+  name: 'Chengdu',
+  description: 'Generally add label',
+  position: Cesium.Cartesian3.fromDegrees(104.06586345135878, 30.657467250168803, 500), // TODO set height to clamp the altitude
+  label: {
+    text: '成都',
+  },
+});
+
+entities.entity_point_city_chongqing = new Cesium.Entity({
+  name: 'Chongqing',
+  description: 'Set font',
+  position: Cesium.Cartesian3.fromDegrees(106.55109032171617, 29.56562676699478, 300), // TODO set height to clamp the altitude
+  label: {
+    text: '重庆',
+    font: '24px Helvetica',
+    fillColor: Cesium.Color.SKYBLUE,
+    outlineColor: Cesium.Color.BLACK,
+    outlineWidth: 2,
+    style: Cesium.LabelStyle.FILL_AND_OUTLINE,
+  },
+});
+
+const imgFacility = new Image();
+imgFacility.src = img_url_Facility;
+
+const addEntityCityChangsha = () => {
+  entities.entity_point_city_changsha = new Cesium.Entity({
+    name: 'Changsha',
+    description: 'Label on top of scaling billboard',
+    position: Cesium.Cartesian3.fromDegrees(112.93726634827917, 28.223085412076085, 300), // TODO set height to clamp the altitude
+    billboard: {
+      scaleByDistance: new Cesium.NearFarScalar(1.5e2, 5.0, 1.5e7, 0.5),
+      image: imgFacility,
+    },
+    label: {
+      text: '长沙',
+      font: '20px sans-serif',
+      showBackground: true,
+      horizontalOrigin: Cesium.HorizontalOrigin.CENTER,
+      pixelOffset: new Cesium.Cartesian2(0.0, -imgFacility.height - 5),
+      pixelOffsetScaleByDistance: new Cesium.NearFarScalar(1.5e2, 3.0, 1.5e7, 0.5),
+    },
+  });
+};
+
+if (imgFacility.complete) {
+  addEntityCityChangsha();
+} else {
+  imgFacility.onload = () => {
+    addEntityCityChangsha();
+  };
+}
+
+entities.entity_point_Australia = new Cesium.Entity({
+  name: 'Australia',
+  description: 'Set properties',
+  position: Cesium.Cartesian3.fromDegrees(134.84264674329597, -26.18436898092648, 200000),
+  label: {
+    text: 'Australia',
+    scale: 2.0,
+    showBackground: true,
+  },
+});
+
+entities.entity_point_city_shanghai = new Cesium.Entity({
+  name: 'Shanghai',
+  description: 'Fade label by distance',
+  position: Cesium.Cartesian3.fromDegrees(121.47216705606934, 31.231209167627867, 300), // TODO set height to clamp the altitude
+  label: {
+    text: '上海',
+    translucencyByDistance: new Cesium.NearFarScalar(1.5e2, 1.0, 1.5e8, 0.0),
+  },
+});
+
+entities.entity_point_city_kunming = new Cesium.Entity({
+  name: 'Kunming',
+  description: 'Fade label by distance',
+  position: Cesium.Cartesian3.fromDegrees(102.8341030329759, 24.87759027221219, 2400), // TODO set height to clamp the altitude
+  label: {
+    text: '昆明',
+    translucencyByDistance: new Cesium.NearFarScalar(1.5e5, 1.0, 1.5e7, 0.0),
+  },
+});
+
+entities.entity_point_city_guiyang = new Cesium.Entity({
+  name: 'Guiyang',
+  description: 'Scale label by distance',
+  position: Cesium.Cartesian3.fromDegrees(106.63022327408177, 26.647120329926956, 1300), // TODO set height to clamp the altitude
+  label: {
+    text: '贵阳',
+    scaleByDistance: new Cesium.NearFarScalar(1.5e2, 2.0, 1.5e7, 0.5),
+  },
+});
+
+Cesium.Label.enableRightToLeftDetection = true; // Only needs to be set once at the beginning of the application.
+entities.entity_point_city_KualaLumpur = new Cesium.Entity({
+  name: 'Kuala Lumpur',
+  description: 'Set label with right-to-left language',
+  position: Cesium.Cartesian3.fromDegrees(101.67872613771206, 3.107212185600827, 100), // TODO set height to clamp the altitude
+  label: {
+    text: 'Master (אדון): Hello\nתלמיד (student): שלום',
+  },
+});
+
+entities.entity_point_city_guangzhou = new Cesium.Entity({
+  name: 'Guangzhou',
+  description: 'Animate Label',
+  position: Cesium.Cartesian3.fromDegrees(113.2650929557566, 23.12538792788729, 200), // TODO set height to clamp the altitude
+  label: {
+    text: '广州',
+    outlineColor: Cesium.Color.BLACK,
+    outlineWidth: 0,
+    style: Cesium.LabelStyle.FILL_AND_OUTLINE,
+  },
+});
+
+let labelListenerCallback;
+
+// Sandcastle examples for more customization options about Billboards.
+// https://sandcastle.cesium.com/?src=Billboards.html
+
+entities.entity_billboard_CesiumLOGO_1 = new Cesium.Entity({
+  name: 'Billboard Cesium LOGO 1',
+  description: 'Add billboard',
+  position: Cesium.Cartesian3.fromDegrees(114.60226666345923, 3.767494188451156, 500),
+  billboard: {
+    image: imgCesiumLogoOverlay,
+  },
+});
+
+entities.entity_billboard_CesiumLOGO_2 = new Cesium.Entity({
+  name: 'Billboard Cesium LOGO 2',
+  description: 'Set rotation',
+  position: Cesium.Cartesian3.fromDegrees(114.9919610412115, -2.582625658619737),
+  billboard: {
+    image: imgCesiumLogoOverlay, // default: undefined
+    show: true, // default
+    pixelOffset: new Cesium.Cartesian2(0, -50), // default: (0, 0)
+    eyeOffset: new Cesium.Cartesian3(0.0, 0.0, 0.0), // default
+    horizontalOrigin: Cesium.HorizontalOrigin.CENTER, // default
+    verticalOrigin: Cesium.VerticalOrigin.BOTTOM, // default: CENTER
+    scale: 2.0, // default: 1.0
+    color: Cesium.Color.LIME, // default: WHITE
+    rotation: Cesium.Math.PI_OVER_FOUR, // default: 0.0
+    alignedAxis: Cesium.Cartesian3.ZERO, // default
+    width: 100, // default: undefined
+    height: 25, // default: undefined
+  },
+});
+
+entities.entity_billboard_CesiumLOGO_3 = new Cesium.Entity({
+  name: 'Billboard Cesium LOGO 3',
+  // description: '...',
+  position: Cesium.Cartesian3.fromDegrees(79.86553252095942, -30.713994769782122, 300000.0),
+  billboard: {
+    image: imgCesiumLogoOverlay,
+    scale: 3.0,
+    color: Cesium.Color.WHITE.withAlpha(0.25),
+  },
+});
+
+entities.entity_billboard_CesiumLOGO_4 = new Cesium.Entity({
+  name: 'Billboard Cesium LOGO 4',
+  description: 'Size billboard in meters',
+  position: Cesium.Cartesian3.fromDegrees(-75.59777, 40.03883, 100.0),
+  billboard: {
+    image: imgCesiumLogoOverlay,
+    sizeInMeters: true,
+  },
+});
+
+const addEntityBillboardsOffsetByDistance = () => {
+  /* Promise.all([
+    Cesium.Resource.fetchImage('./assets/images/Cesium_Logo_overlay.png'),
+    Cesium.Resource.fetchImage('./assets/images/facility.gif'),
+  ]).then((images) => { */
+  // As viewer zooms closer to facility billboard,
+  // increase pixelOffset on CesiumLogo billboard to this height
+  // const facilityHeight = images[1].height;
+
+  // colocated billboards, separate as viewer gets closer
+  entities.entity_billboard_CesiumLOGO_5_1 = new Cesium.Entity({
+    name: 'Billboard Cesium LOGO 5-1',
+    description: 'Offset by viewer distance',
+    position: Cesium.Cartesian3.fromDegrees(103.88295179130066, 1.3560485925547168, 50.0),
+    billboard: {
+      image: img_url_Facility, // images[1],
+      horizontalOrigin: Cesium.HorizontalOrigin.CENTER,
+      verticalOrigin: Cesium.VerticalOrigin.BOTTOM,
+    },
+  });
+  entities.entity_billboard_CesiumLOGO_5_2 = new Cesium.Entity({
+    name: 'Billboard Cesium LOGO 5-2',
+    description: 'Offset by viewer distance',
+    position: Cesium.Cartesian3.fromDegrees(103.88295179130066, 1.3560485925547168, 50.0),
+    billboard: {
+      image: imgCesiumLogoOverlay, // images[0],
+      horizontalOrigin: Cesium.HorizontalOrigin.CENTER,
+      verticalOrigin: Cesium.VerticalOrigin.BOTTOM,
+      pixelOffset: new Cesium.Cartesian2(0.0, -imgFacility.height),
+      pixelOffsetScaleByDistance: new Cesium.NearFarScalar(1.0e3, 1.0, 1.5e6, 0.0),
+      translucencyByDistance: new Cesium.NearFarScalar(1.0e3, 1.0, 1.5e6, 0.1),
+    },
+  });
+  // });
+};
+
+addEntityBillboardsOffsetByDistance();
+
+entities.entity_billboard_CesiumLOGO_6_1 = new Cesium.Entity({
+  name: 'Billboard Cesium LOGO 6-1',
+  description: 'marker',
+  position: Cesium.Cartesian3.fromDegrees(161.92009969242505, 13.183259309991355, 100),
+  billboard: {
+    image: imgWhiteShapes,
+    imageSubRegion: new Cesium.BoundingRectangle(49, 43, 18, 18),
+    color: Cesium.Color.LIME,
+  },
+});
+
+entities.entity_billboard_CesiumLOGO_6_2 = new Cesium.Entity({
+  name: 'Billboard Cesium LOGO 6-2',
+  description: 'marker',
+  position: Cesium.Cartesian3.fromDegrees(-176.0556417058752, 11.450392633509344, 100),
+  billboard: {
+    image: imgWhiteShapes,
+    imageSubRegion: new Cesium.BoundingRectangle(61, 23, 18, 18),
+    color: new Cesium.Color(0, 0.5, 1.0, 1.0),
+  },
+});
+
+entities.entity_billboard_CesiumLOGO_6_3 = new Cesium.Entity({
+  name: 'Billboard Cesium LOGO 6-3',
+  description: 'marker',
+  position: Cesium.Cartesian3.fromDegrees(177.44055038489802, 7.074919300596605, 100),
+  billboard: {
+    image: imgWhiteShapes,
+    imageSubRegion: new Cesium.BoundingRectangle(27, 103, 22, 22),
+    color: new Cesium.Color(0.5, 0.9, 1.0, 1.0),
+  },
+});
+
+entities.entity_billboard_CesiumLOGO_7 = new Cesium.Entity({ // FIXME On the other side of the sphere, the entity can still be seen.
+  name: 'Billboard Cesium LOGO 7',
+  description: 'Disable the depth test when clamped to ground.',
+  position: Cesium.Cartesian3.fromDegrees(-122.1958, 46.1915),
+  billboard: {
+    image: img_url_Facility,
+    heightReference: Cesium.HeightReference.CLAMP_TO_GROUND,
+    disableDepthTestDistance: Number.POSITIVE_INFINITY,
+  },
+});
 
 export const demoShowEntities = (viewer) => {
   viewer.entities.collectionChanged.addEventListener(onChanged);
 
   viewer.entities.suspendEvents();
 
-  entities.entity_polygon_wyoming = viewer.entities.add(entity_polygon_wyoming);
-  entities.entity_box_blue = viewer.entities.add(entity_box_blue);
-  entities.entity_box_red = viewer.entities.add(entity_box_red);
-  entities.entity_box_outlineOnly = viewer.entities.add(entity_box_outlineOnly);
-  entities.entity_circle_green = viewer.entities.add(entity_circle_green);
-  entities.entity_ellipse_red = viewer.entities.add(entity_ellipse_red);
-  entities.entity_ellipse_blue_extruded = viewer.entities.add(entity_ellipse_blue_extruded);
-  entities.entity_corridor_red = viewer.entities.add(entity_corridor_red);
-  entities.entity_corridor_green = viewer.entities.add(entity_corridor_green);
-  entities.entity_corridor_blue = viewer.entities.add(entity_corridor_blue);
-  entities.entity_cylinder_green = viewer.entities.add(entity_cylinder_green);
-  entities.entity_cone_red = viewer.entities.add(entity_cone_red);
-  entities.entity_polygon_green = viewer.entities.add(entity_polygon_green);
-  entities.entity_polygon_textured = viewer.entities.add(entity_polygon_textured);
-  entities.entity_polygon_textured_withHeight = viewer.entities.add(entity_polygon_textured_withHeight);
-  entities.entity_polygon_textured_withHoles = viewer.entities.add(entity_polygon_textured_withHoles);
-  entities.entity_polygon_withHoles = viewer.entities.add(entity_polygon_withHoles);
-  entities.entity_polygon_vertical = viewer.entities.add(entity_polygon_vertical);
-  entities.entity_polygon_withArcType_NONE = viewer.entities.add(entity_polygon_withArcType_NONE);
-  entities.entity_polygon_withArcType_GEODESIC = viewer.entities.add(entity_polygon_withArcType_GEODESIC);
-  entities.entity_polygon_withArcType_RHUMB = viewer.entities.add(entity_polygon_withArcType_RHUMB);
-  entities.entity_polyline_withArcType_NONE = viewer.entities.add(entity_polyline_withArcType_NONE);
-  entities.entity_polyline_withArcType_GEODESIC = viewer.entities.add(entity_polyline_withArcType_GEODESIC);
-  entities.entity_polyline_withArcType_RHUMB = viewer.entities.add(entity_polyline_withArcType_RHUMB);
-  entities.entity_polyline_orange_outlined = viewer.entities.add(entity_polyline_orange_outlined);
-  entities.entity_polyline_purple_arrow = viewer.entities.add(entity_polyline_purple_arrow);
-  entities.entity_polyline_dashed = viewer.entities.add(entity_polyline_dashed);
-  entities.entity_polyline_glow = viewer.entities.add(entity_polyline_glow);
-  entities.entity_polylineVolume_tube = viewer.entities.add(entity_polylineVolume_tube);
-  entities.entity_polylineVolume_box = viewer.entities.add(entity_polylineVolume_box);
-  entities.entity_polylineVolume_star = viewer.entities.add(entity_polylineVolume_star);
-  entities.entity_rectangle_red = viewer.entities.add(entity_rectangle_red);
-  entities.entity_rectangle_translucent_green = viewer.entities.add(entity_rectangle_translucent_green);
-  entities.entity_rectangle_rotating_withTexture = viewer.entities.add(entity_rectangle_rotating_withTexture);
-  entities.entity_ellipsoid_blue = viewer.entities.add(entity_ellipsoid_blue);
-  entities.entity_sphere_red = viewer.entities.add(entity_sphere_red);
-  entities.entity_ellipsoid_outlineOnly = viewer.entities.add(entity_ellipsoid_outlineOnly);
-  entities.entity_wall_red_height = viewer.entities.add(entity_wall_red_height);
-  entities.entity_wall_green_surface = viewer.entities.add(entity_wall_green_surface);
-  entities.entity_wall_blue_sawtooth = viewer.entities.add(entity_wall_blue_sawtooth);
-  entities.entity_ellipse_checkerboard = viewer.entities.add(entity_ellipse_checkerboard);
-  entities.entity_ellipse_stripe = viewer.entities.add(entity_ellipse_stripe);
-  entities.entity_ellipse_grid = viewer.entities.add(entity_ellipse_grid);
-  entities.entity_ellipse_outlineOnly = viewer.entities.add(entity_ellipse_outlineOnly);
+  viewer.scene.globe.depthTestAgainstTerrain = true;
+
+  addEntities(viewer, entities);
+
+  labelListenerCallback = animateLabel(viewer, entities.entity_point_city_guangzhou);
 
   viewer.entities.resumeEvents();
 
-  // viewer.zoomTo(viewer.entities);
+  viewer.flyTo(entities.entity_polygon_wyoming).then((result) => {
+    if (result) {
+      viewer.selectedEntity = entities.entity_polygon_wyoming;
+    } else {
+      ConsoleLog('The flight was canceled');
+    }
+  }, (error) => {
+    ConsoleLog(error);
+  });
 };
 
 export const destroyDemoShowEntities = (viewer) => {
   viewer.entities.removeAll();
 
-  for (const entity in entities) {
+  viewer.scene.globe.depthTestAgainstTerrain = false;
+
+  /* for (const entity in entities) {
     if (Object.prototype.hasOwnProperty.call(entities, entity)) {
       entities[entity] = undefined;
     }
+  } */
+
+  if (Cesium.defined(labelListenerCallback)) {
+    labelListenerCallback();
   }
 
   viewer.entities.collectionChanged.removeEventListener(onChanged);

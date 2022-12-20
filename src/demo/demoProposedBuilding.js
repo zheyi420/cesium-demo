@@ -98,9 +98,13 @@ export async function demoProposedBuilding(viewer) {
   const heading = Cesium.Math.toRadians(-45.0);
   const pitch = Cesium.Math.toRadians(-10.0);
   const range = 800.0;
-  viewer.flyTo(primitive_ProposedBuildingTileset, {
+  /* viewer.flyTo(primitive_ProposedBuildingTileset, {
     offset: new Cesium.HeadingPitchRange(heading, pitch, range),
-  });
+  }); */
+  viewer.zoomTo(primitive_ProposedBuildingTileset, new Cesium.HeadingPitchRange(heading, pitch, range));
+
+  // primitive_ProposedBuildingTileset.position = Cesium.Cartesian3.fromDegrees(-104.99091, 39.73623);
+  // viewer.trackedEntity = primitive_ProposedBuildingTileset;
 }
 
 /**
