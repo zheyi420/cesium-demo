@@ -2,7 +2,7 @@
   <div id="panelContainer" :class="{ hide: !panelVisible }">
     <div class="panel">
       <header class="panel-header">
-        <span>CesiumJS Code Examples</span>
+        <span>CesiumJS Examples</span>
       </header>
       <div class="panel-content">
         <div class="panel-content-gallery" v-for="(category, category_index) in gallery" :key="category_index">

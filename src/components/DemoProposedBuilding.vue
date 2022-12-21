@@ -22,9 +22,26 @@ const toggleShowStatus = () => {
 <style scoped lang="less">
 #toggle-building {
   z-index: 1;
-  position: fixed;
-  top: 5px;
-  left: 5px;
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  font-size: 16px;
   cursor: pointer;
+  display: inline-block;
+  background: #303336;
+  border: 1px solid #444;
+  color: #edffff;
+  fill: #edffff;
+  border-radius: 4px;
+  padding: 7px 12px;
+  margin: 2px 3px;
+  overflow: hidden;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  &:hover {
+    background: steelblue;
+  }
 }
 </style>

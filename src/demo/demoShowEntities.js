@@ -117,6 +117,10 @@ entities.entity_polygon_wyoming = new Cesium.Entity({
     </p>`,
 });
 
+// ConsoleLog(typeof entities.entity_polygon_wyoming.polygon.outline); // object
+// ConsoleLog(entities.entity_polygon_wyoming.polygon.outline instanceof Cesium.ConstantProperty); // true
+// ConsoleLog(entities.entity_polygon_wyoming.polygon.outline instanceof Cesium.Property); // false
+
 entities.entity_polygon_green = new Cesium.Entity({
   name: 'polygon',
   description: 'Green extruded polygon',
@@ -1068,6 +1072,9 @@ entities.entity_billboard_CesiumLOGO_4 = new Cesium.Entity({
   },
 });
 
+const imgFacilityOffset = new Image();
+imgFacilityOffset.src = img_url_Facility;
+
 const addEntityBillboardsOffsetByDistance = () => {
   /* Promise.all([
     Cesium.Resource.fetchImage('./assets/images/Cesium_Logo_overlay.png'),
@@ -1083,7 +1090,7 @@ const addEntityBillboardsOffsetByDistance = () => {
     description: 'Offset by viewer distance',
     position: Cesium.Cartesian3.fromDegrees(103.88295179130066, 1.3560485925547168, 50.0),
     billboard: {
-      image: img_url_Facility, // images[1],
+      image: imgFacilityOffset,
       horizontalOrigin: Cesium.HorizontalOrigin.CENTER,
       verticalOrigin: Cesium.VerticalOrigin.BOTTOM,
     },
@@ -1093,10 +1100,10 @@ const addEntityBillboardsOffsetByDistance = () => {
     description: 'Offset by viewer distance',
     position: Cesium.Cartesian3.fromDegrees(103.88295179130066, 1.3560485925547168, 50.0),
     billboard: {
-      image: imgCesiumLogoOverlay, // images[0],
+      image: imgCesiumLogoOverlay,
       horizontalOrigin: Cesium.HorizontalOrigin.CENTER,
       verticalOrigin: Cesium.VerticalOrigin.BOTTOM,
-      pixelOffset: new Cesium.Cartesian2(0.0, -imgFacility.height),
+      pixelOffset: new Cesium.Cartesian2(0.0, -imgFacilityOffset.height - 5),
       pixelOffsetScaleByDistance: new Cesium.NearFarScalar(1.0e3, 1.0, 1.5e6, 0.0),
       translucencyByDistance: new Cesium.NearFarScalar(1.0e3, 1.0, 1.5e6, 0.1),
     },
@@ -1104,7 +1111,13 @@ const addEntityBillboardsOffsetByDistance = () => {
   // });
 };
 
-addEntityBillboardsOffsetByDistance();
+if (imgFacilityOffset.complete) {
+  addEntityBillboardsOffsetByDistance();
+} else {
+  imgFacilityOffset.onload = () => {
+    addEntityBillboardsOffsetByDistance();
+  };
+}
 
 entities.entity_billboard_CesiumLOGO_6_1 = new Cesium.Entity({
   name: 'Billboard Cesium LOGO 6-1',

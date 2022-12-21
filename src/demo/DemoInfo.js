@@ -1,6 +1,6 @@
 export const GalleryList = [
   {
-    label: 'Beginner',
+    label: 'Other',
     contents: [
       /* {
         label: 'QuickStart',
@@ -11,12 +11,16 @@ export const GalleryList = [
         description: 'Visualize a real flight from San Francisco to Copenhagen, with radar data collected by FlightRadar24.',
       },
       {
-        label: 'Proposed Building',
-        description: 'Visualize a Proposed Building in a 3D City',
-      },
-      {
         label: 'Show Entities',
         description: 'Show Entities',
+      },
+      {
+        label: '3D Models',
+        description: '3D Models',
+      },
+      {
+        label: 'Proposed Building',
+        description: 'Visualize a Proposed Building in a 3D City',
       },
     ],
   },
@@ -28,24 +32,24 @@ export const GalleryList = [
         description: 'Adjust the height of a 3D Tiles tileset.',
       },
       {
-        label: 'BIM',
-        description: 'A sample BIM dataset rendered with 3D Tiles.',
-      },
-      {
-        label: 'Batch Table Hierarchy',
-        description: 'Demonstrates use cases for a batch table hierarchy.',
-      },
-      {
         label: 'Clipping Planes',
         description: 'User-defined clipping planes applied to a batched 3D Tileset, point cloud, and model.',
+      },
+      {
+        label: 'Feature Picking',
+        description: 'Pick features in a 3D Tiles tileset.',
       },
       {
         label: 'Compare',
         description: 'Compare 3D Tiles tilesets by showing different ones on different sides of the screen.',
       },
       {
-        label: 'Feature Picking',
-        description: 'Pick features in a 3D Tiles tileset.',
+        label: 'Batch Table Hierarchy',
+        description: 'Demonstrates use cases for a batch table hierarchy.',
+      },
+      {
+        label: 'BIM',
+        description: 'A sample BIM dataset rendered with 3D Tiles.',
       },
     ],
   },

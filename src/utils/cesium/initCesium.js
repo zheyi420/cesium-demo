@@ -21,6 +21,7 @@ export default function initCesium(viewerType = '3D') {
 
   const ViewerConstructorOptions = {
     sceneModePicker: false,
+    shadows: true,
     navigationInstructionsInitiallyVisible: false,
     // selectedTerrainProviderViewModel: // TODO
     // Use Cesium World Terrain
