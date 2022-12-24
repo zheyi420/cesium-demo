@@ -17,6 +17,7 @@ import { demoFlightTracker, destroyDemoFlightTracker } from '../demo/demoFlightT
 import { demoProposedBuilding, destroyDemoProposedBuilding } from '../demo/demoProposedBuilding';
 import { demoShowEntities, destroyDemoShowEntities } from '../demo/demoShowEntities';
 import { get3DModelsOptions, demo3DModels, destroyDemo3DModels } from '../demo/demo3DModels';
+import { demo3DTilesBIM, destroyDemo3DTilesBIM } from '../demo/demo3DTilesBIM';
 import { useCurDemoStore } from '../stores/states';
 import { ConsoleLog } from '../utils';
 
@@ -49,7 +50,7 @@ const hasDropDownMenu = computed(() => {
 });
 
 const demoCase = (caseInfo) => {
-  ConsoleLog('CesiumContainer run demoCase(): ', caseInfo.label);
+  ConsoleLog(`CesiumContainer run demoCase(): ${caseInfo.categoryLabel} - ${caseInfo.label}`);
 
   switch (caseInfo.categoryLabel.concat('-', caseInfo.label)) {
     case 'Other-QuickStart': {
@@ -74,6 +75,10 @@ const demoCase = (caseInfo) => {
         dropDownMenuOptionOfDemo.push(option);
       }
       demo3DModels(viewer);
+      break;
+    }
+    case '3D Tiles-BIM': {
+      demo3DTilesBIM(viewer);
       break;
     }
     default: {
@@ -108,6 +113,10 @@ const destroyCurDemo = () => {
     case 'Other-3D Models': {
       dropDownMenuOptionOfDemo.splice(0, dropDownMenuOptionOfDemo.length);
       destroyDemo3DModels(viewer);
+      break;
+    }
+    case '3D Tiles-BIM': {
+      destroyDemo3DTilesBIM(viewer);
       break;
     }
     default: {

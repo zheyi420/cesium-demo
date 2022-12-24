@@ -75,15 +75,22 @@ export const hide_Animation_Timeline_Container = (viewer) => {
  * Pause the clock, set multiplier to 1.
  * @param {Viewer} viewer
  */
-export const adjust_Animation_Timeline_toNow = (viewer) => {
+export const adjust_Animation_Timeline_to = (viewer, time) => {
   viewer.clock.multiplier = 1;
   viewer.clock.shouldAnimate = false;
 
-  const curJulianDate = Cesium.JulianDate.now();
-  viewer.clock.currentTime = curJulianDate;
-  const startTime = Cesium.JulianDate.addDays(curJulianDate, -1, new Cesium.JulianDate());
-  const stopTime = Cesium.JulianDate.addDays(curJulianDate, 1, new Cesium.JulianDate());
-  viewer.timeline.zoomTo(startTime, stopTime);
+  if (time === 'NOW') {
+    const curJulianDate = Cesium.JulianDate.now();
+    viewer.clock.currentTime = curJulianDate;
+    const startTime = Cesium.JulianDate.addDays(curJulianDate, -1, new Cesium.JulianDate());
+    const stopTime = Cesium.JulianDate.addDays(curJulianDate, 1, new Cesium.JulianDate());
+    viewer.timeline.zoomTo(startTime, stopTime);
+    return;
+  }
+
+  if (time instanceof Cesium.JulianDate) { // TODO Check if there is a problem
+    viewer.clock.currentTime = time;
+  }
 };
 
 /**

@@ -1,6 +1,6 @@
 import Cesium from '../utils/cesium/Cesium';
 import {
-  display_Animation_Timeline_Container, hide_Animation_Timeline_Container, adjust_Animation_Timeline_toNow,
+  display_Animation_Timeline_Container, hide_Animation_Timeline_Container, adjust_Animation_Timeline_to,
 } from '../utils/cesium';
 import { ConsoleLog } from '../utils';
 
@@ -105,7 +105,7 @@ const options = [
     onselect(name) {
       createModel(
         name,
-        `${import.meta.env.VITE_BUILD_PATH_PREFIX}/SampleData/models/DracoCompressed/CesiumMilkTruck.gltf`, // FIXME Failed to load model
+        `${import.meta.env.VITE_BUILD_PATH_PREFIX}/SampleData/models/DracoCompressed/CesiumMilkTruck.gltf`,
         0,
       );
     },
@@ -168,6 +168,6 @@ export const demo3DModels = (viewer) => {
 
 export const destroyDemo3DModels = (viewer) => {
   viewer.entities.removeAll();
-  adjust_Animation_Timeline_toNow(viewer);
+  adjust_Animation_Timeline_to(viewer, 'NOW');
   hide_Animation_Timeline_Container(viewer);
 };

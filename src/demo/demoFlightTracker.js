@@ -1,7 +1,7 @@
 import Cesium from '../utils/cesium/Cesium';
 import trajectory from './assets/trajectorySanFrancisco2Copenhagen.json';
 import {
-  addOSMBuildings, removePrimitive, display_Animation_Timeline_Container, hide_Animation_Timeline_Container, adjust_Animation_Timeline_toNow,
+  addOSMBuildings, removePrimitive, display_Animation_Timeline_Container, hide_Animation_Timeline_Container, adjust_Animation_Timeline_to,
 } from '../utils/cesium';
 import { ConsoleLog } from '../utils';
 
@@ -107,7 +107,7 @@ export const demoFlightTracker = (viewer) => {
 };
 
 export const destroyDemoFlightTracker = (viewer) => {
-  adjust_Animation_Timeline_toNow(viewer);
+  adjust_Animation_Timeline_to(viewer, 'NOW');
 
   // remove all entities.
   viewer.entities.removeAll();

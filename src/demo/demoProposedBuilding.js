@@ -1,6 +1,6 @@
 import Cesium from '../utils/cesium/Cesium';
 import {
-  display_Animation_Timeline_Container, hide_Animation_Timeline_Container, addOSMBuildings, removePrimitive, adjust_Animation_Timeline_toNow,
+  display_Animation_Timeline_Container, hide_Animation_Timeline_Container, addOSMBuildings, removePrimitive, adjust_Animation_Timeline_to,
 } from '../utils/cesium';
 import { ConsoleLog } from '../utils';
 
@@ -111,7 +111,7 @@ export async function demoProposedBuilding(viewer) {
  * @param {Viewer} viewer
  */
 export const destroyDemoProposedBuilding = (viewer) => {
-  adjust_Animation_Timeline_toNow(viewer);
+  adjust_Animation_Timeline_to(viewer, 'NOW');
 
   hide_Animation_Timeline_Container(viewer);
 

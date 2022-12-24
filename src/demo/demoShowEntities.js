@@ -903,18 +903,20 @@ entities.entity_point_LincolnFinancialField = new Cesium.Entity({
 entities.entity_point_city_chengdu = new Cesium.Entity({
   name: 'Chengdu',
   description: 'Generally add label',
-  position: Cesium.Cartesian3.fromDegrees(104.06586345135878, 30.657467250168803, 500), // TODO set height to clamp the altitude
+  position: Cesium.Cartesian3.fromDegrees(104.06586345135878, 30.657467250168803, 50),
   label: {
     text: '成都',
+    heightReference: Cesium.HeightReference.RELATIVE_TO_GROUND,
   },
 });
 
 entities.entity_point_city_chongqing = new Cesium.Entity({
   name: 'Chongqing',
   description: 'Set font',
-  position: Cesium.Cartesian3.fromDegrees(106.55109032171617, 29.56562676699478, 300), // TODO set height to clamp the altitude
+  position: Cesium.Cartesian3.fromDegrees(106.55109032171617, 29.56562676699478, 50),
   label: {
     text: '重庆',
+    heightReference: Cesium.HeightReference.RELATIVE_TO_GROUND,
     font: '24px Helvetica',
     fillColor: Cesium.Color.SKYBLUE,
     outlineColor: Cesium.Color.BLACK,
@@ -930,13 +932,15 @@ const addEntityCityChangsha = () => {
   entities.entity_point_city_changsha = new Cesium.Entity({
     name: 'Changsha',
     description: 'Label on top of scaling billboard',
-    position: Cesium.Cartesian3.fromDegrees(112.93726634827917, 28.223085412076085, 300), // TODO set height to clamp the altitude
+    position: Cesium.Cartesian3.fromDegrees(112.93726634827917, 28.223085412076085),
     billboard: {
+      heightReference: Cesium.HeightReference.RELATIVE_TO_GROUND,
       scaleByDistance: new Cesium.NearFarScalar(1.5e2, 5.0, 1.5e7, 0.5),
       image: imgFacility,
     },
     label: {
       text: '长沙',
+      heightReference: Cesium.HeightReference.RELATIVE_TO_GROUND,
       font: '20px sans-serif',
       showBackground: true,
       horizontalOrigin: Cesium.HorizontalOrigin.CENTER,
@@ -960,6 +964,7 @@ entities.entity_point_Australia = new Cesium.Entity({
   position: Cesium.Cartesian3.fromDegrees(134.84264674329597, -26.18436898092648, 200000),
   label: {
     text: 'Australia',
+    heightReference: Cesium.HeightReference.RELATIVE_TO_GROUND,
     scale: 2.0,
     showBackground: true,
   },
@@ -968,9 +973,10 @@ entities.entity_point_Australia = new Cesium.Entity({
 entities.entity_point_city_shanghai = new Cesium.Entity({
   name: 'Shanghai',
   description: 'Fade label by distance',
-  position: Cesium.Cartesian3.fromDegrees(121.47216705606934, 31.231209167627867, 300), // TODO set height to clamp the altitude
+  position: Cesium.Cartesian3.fromDegrees(121.47216705606934, 31.231209167627867, 50),
   label: {
     text: '上海',
+    heightReference: Cesium.HeightReference.RELATIVE_TO_GROUND,
     translucencyByDistance: new Cesium.NearFarScalar(1.5e2, 1.0, 1.5e8, 0.0),
   },
 });
@@ -978,9 +984,10 @@ entities.entity_point_city_shanghai = new Cesium.Entity({
 entities.entity_point_city_kunming = new Cesium.Entity({
   name: 'Kunming',
   description: 'Fade label by distance',
-  position: Cesium.Cartesian3.fromDegrees(102.8341030329759, 24.87759027221219, 2400), // TODO set height to clamp the altitude
+  position: Cesium.Cartesian3.fromDegrees(102.8341030329759, 24.87759027221219, 50),
   label: {
     text: '昆明',
+    heightReference: Cesium.HeightReference.RELATIVE_TO_GROUND,
     translucencyByDistance: new Cesium.NearFarScalar(1.5e5, 1.0, 1.5e7, 0.0),
   },
 });
@@ -988,9 +995,10 @@ entities.entity_point_city_kunming = new Cesium.Entity({
 entities.entity_point_city_guiyang = new Cesium.Entity({
   name: 'Guiyang',
   description: 'Scale label by distance',
-  position: Cesium.Cartesian3.fromDegrees(106.63022327408177, 26.647120329926956, 1300), // TODO set height to clamp the altitude
+  position: Cesium.Cartesian3.fromDegrees(106.63022327408177, 26.647120329926956, 50),
   label: {
     text: '贵阳',
+    heightReference: Cesium.HeightReference.RELATIVE_TO_GROUND,
     scaleByDistance: new Cesium.NearFarScalar(1.5e2, 2.0, 1.5e7, 0.5),
   },
 });
@@ -999,18 +1007,20 @@ Cesium.Label.enableRightToLeftDetection = true; // Only needs to be set once at 
 entities.entity_point_city_KualaLumpur = new Cesium.Entity({
   name: 'Kuala Lumpur',
   description: 'Set label with right-to-left language',
-  position: Cesium.Cartesian3.fromDegrees(101.67872613771206, 3.107212185600827, 100), // TODO set height to clamp the altitude
+  position: Cesium.Cartesian3.fromDegrees(101.67872613771206, 3.107212185600827, 50),
   label: {
     text: 'Master (אדון): Hello\nתלמיד (student): שלום',
+    heightReference: Cesium.HeightReference.RELATIVE_TO_GROUND,
   },
 });
 
 entities.entity_point_city_guangzhou = new Cesium.Entity({
   name: 'Guangzhou',
   description: 'Animate Label',
-  position: Cesium.Cartesian3.fromDegrees(113.2650929557566, 23.12538792788729, 200), // TODO set height to clamp the altitude
+  position: Cesium.Cartesian3.fromDegrees(113.2650929557566, 23.12538792788729, 50),
   label: {
     text: '广州',
+    heightReference: Cesium.HeightReference.RELATIVE_TO_GROUND,
     outlineColor: Cesium.Color.BLACK,
     outlineWidth: 0,
     style: Cesium.LabelStyle.FILL_AND_OUTLINE,
@@ -1025,9 +1035,10 @@ let labelListenerCallback;
 entities.entity_billboard_CesiumLOGO_1 = new Cesium.Entity({
   name: 'Billboard Cesium LOGO 1',
   description: 'Add billboard',
-  position: Cesium.Cartesian3.fromDegrees(114.60226666345923, 3.767494188451156, 500),
+  position: Cesium.Cartesian3.fromDegrees(114.60226666345923, 3.767494188451156, 50),
   billboard: {
     image: imgCesiumLogoOverlay,
+    heightReference: Cesium.HeightReference.RELATIVE_TO_GROUND,
   },
 });
 
@@ -1036,6 +1047,7 @@ entities.entity_billboard_CesiumLOGO_2 = new Cesium.Entity({
   description: 'Set rotation',
   position: Cesium.Cartesian3.fromDegrees(114.9919610412115, -2.582625658619737),
   billboard: {
+    heightReference: Cesium.HeightReference.RELATIVE_TO_GROUND,
     image: imgCesiumLogoOverlay, // default: undefined
     show: true, // default
     pixelOffset: new Cesium.Cartesian2(0, -50), // default: (0, 0)
@@ -1057,6 +1069,7 @@ entities.entity_billboard_CesiumLOGO_3 = new Cesium.Entity({
   position: Cesium.Cartesian3.fromDegrees(79.86553252095942, -30.713994769782122, 300000.0),
   billboard: {
     image: imgCesiumLogoOverlay,
+    heightReference: Cesium.HeightReference.RELATIVE_TO_GROUND,
     scale: 3.0,
     color: Cesium.Color.WHITE.withAlpha(0.25),
   },
@@ -1065,8 +1078,9 @@ entities.entity_billboard_CesiumLOGO_3 = new Cesium.Entity({
 entities.entity_billboard_CesiumLOGO_4 = new Cesium.Entity({
   name: 'Billboard Cesium LOGO 4',
   description: 'Size billboard in meters',
-  position: Cesium.Cartesian3.fromDegrees(-75.59777, 40.03883, 100.0),
+  position: Cesium.Cartesian3.fromDegrees(-75.59777, 40.03883),
   billboard: {
+    heightReference: Cesium.HeightReference.RELATIVE_TO_GROUND,
     image: imgCesiumLogoOverlay,
     sizeInMeters: true,
   },
@@ -1088,8 +1102,9 @@ const addEntityBillboardsOffsetByDistance = () => {
   entities.entity_billboard_CesiumLOGO_5_1 = new Cesium.Entity({
     name: 'Billboard Cesium LOGO 5-1',
     description: 'Offset by viewer distance',
-    position: Cesium.Cartesian3.fromDegrees(103.88295179130066, 1.3560485925547168, 50.0),
+    position: Cesium.Cartesian3.fromDegrees(103.88295179130066, 1.3560485925547168),
     billboard: {
+      heightReference: Cesium.HeightReference.RELATIVE_TO_GROUND,
       image: imgFacilityOffset,
       horizontalOrigin: Cesium.HorizontalOrigin.CENTER,
       verticalOrigin: Cesium.VerticalOrigin.BOTTOM,
@@ -1098,8 +1113,9 @@ const addEntityBillboardsOffsetByDistance = () => {
   entities.entity_billboard_CesiumLOGO_5_2 = new Cesium.Entity({
     name: 'Billboard Cesium LOGO 5-2',
     description: 'Offset by viewer distance',
-    position: Cesium.Cartesian3.fromDegrees(103.88295179130066, 1.3560485925547168, 50.0),
+    position: Cesium.Cartesian3.fromDegrees(103.88295179130066, 1.3560485925547168),
     billboard: {
+      heightReference: Cesium.HeightReference.RELATIVE_TO_GROUND,
       image: imgCesiumLogoOverlay,
       horizontalOrigin: Cesium.HorizontalOrigin.CENTER,
       verticalOrigin: Cesium.VerticalOrigin.BOTTOM,
@@ -1122,8 +1138,9 @@ if (imgFacilityOffset.complete) {
 entities.entity_billboard_CesiumLOGO_6_1 = new Cesium.Entity({
   name: 'Billboard Cesium LOGO 6-1',
   description: 'marker',
-  position: Cesium.Cartesian3.fromDegrees(161.92009969242505, 13.183259309991355, 100),
+  position: Cesium.Cartesian3.fromDegrees(161.92009969242505, 13.183259309991355),
   billboard: {
+    heightReference: Cesium.HeightReference.RELATIVE_TO_GROUND,
     image: imgWhiteShapes,
     imageSubRegion: new Cesium.BoundingRectangle(49, 43, 18, 18),
     color: Cesium.Color.LIME,
@@ -1133,8 +1150,9 @@ entities.entity_billboard_CesiumLOGO_6_1 = new Cesium.Entity({
 entities.entity_billboard_CesiumLOGO_6_2 = new Cesium.Entity({
   name: 'Billboard Cesium LOGO 6-2',
   description: 'marker',
-  position: Cesium.Cartesian3.fromDegrees(-176.0556417058752, 11.450392633509344, 100),
+  position: Cesium.Cartesian3.fromDegrees(-176.0556417058752, 11.450392633509344),
   billboard: {
+    heightReference: Cesium.HeightReference.RELATIVE_TO_GROUND,
     image: imgWhiteShapes,
     imageSubRegion: new Cesium.BoundingRectangle(61, 23, 18, 18),
     color: new Cesium.Color(0, 0.5, 1.0, 1.0),
@@ -1144,8 +1162,9 @@ entities.entity_billboard_CesiumLOGO_6_2 = new Cesium.Entity({
 entities.entity_billboard_CesiumLOGO_6_3 = new Cesium.Entity({
   name: 'Billboard Cesium LOGO 6-3',
   description: 'marker',
-  position: Cesium.Cartesian3.fromDegrees(177.44055038489802, 7.074919300596605, 100),
+  position: Cesium.Cartesian3.fromDegrees(177.44055038489802, 7.074919300596605),
   billboard: {
+    heightReference: Cesium.HeightReference.RELATIVE_TO_GROUND,
     image: imgWhiteShapes,
     imageSubRegion: new Cesium.BoundingRectangle(27, 103, 22, 22),
     color: new Cesium.Color(0.5, 0.9, 1.0, 1.0),
