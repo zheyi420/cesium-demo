@@ -3,6 +3,7 @@
   <GalleryPanel @select="selectCase"/>
   <DemoProposedBuilding v-if="isCurDemoProposedBuilding"/>
   <DropDownMenu v-if="hasDropDownMenu" :dropDownMenuOptionOfDemo="dropDownMenuOptionOfDemo" />
+  <ToolbarButtonType v-if="isToolbarButtonType"/>
 </template>
 
 <script setup>
@@ -12,6 +13,7 @@ import 'cesium/Build/Cesium/Widgets/widgets.css';
 import GalleryPanel from './GalleryPanel.vue';
 import DemoProposedBuilding from './DemoProposedBuilding.vue';
 import DropDownMenu from './DropDownMenu.vue';
+import ToolbarButtonType from './ToolbarButtonType.vue';
 import { demoQuickStart, destroyDemoQuickStart } from '../demo/demoQuickStart';
 import { demoFlightTracker, destroyDemoFlightTracker } from '../demo/demoFlightTracker';
 import { demoProposedBuilding, destroyDemoProposedBuilding } from '../demo/demoProposedBuilding';
@@ -47,6 +49,12 @@ const hasDropDownMenu = computed(() => {
   if (!storeCurDemo.hasDemoRun) return false;
 
   return storeCurDemo.hasDemoRun && demoCaseInfo.value === 'Other-3D Models';
+});
+
+const isToolbarButtonType = computed(() => {
+  if (!storeCurDemo.hasDemoRun) return false;
+
+  return storeCurDemo.hasDemoRun && demoCaseInfo.value === '3D Tiles-BIM';
 });
 
 const demoCase = (caseInfo) => {

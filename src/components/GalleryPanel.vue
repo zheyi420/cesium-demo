@@ -14,6 +14,7 @@
               v-for="(item, item_index) in category.contents"
               :key="item_index"
               :class="{ active: item.active }"
+              :disabled="item.disabled"
               @click="btnClickHandler(item, category)">{{ item.label }}</button>
           </div>
         </div>
@@ -70,7 +71,7 @@ const gallery = reactive(GalleryList);
   width: 250px;
   height: auto;
   min-height: 150px;
-  background: rgba(0, 0, 0, 0.4);
+  background: rgb(36, 36, 36);
   transition: right 0.24s ease-in-out;
   border-radius: 5px;
   border: 1px solid steelblue;
@@ -119,6 +120,14 @@ const gallery = reactive(GalleryList);
         color: #fff;
         border: 1px solid steelblue;
         transition: all 0.1s ease-in-out;
+        &:disabled {
+          cursor: not-allowed;
+          background: transparent;
+          color: gray;
+          &:hover {
+            background: inherit;
+          }
+        }
         &:hover {
           background: steelblue;
         }

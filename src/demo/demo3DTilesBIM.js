@@ -7,7 +7,7 @@ import { ConsoleLog } from '../utils';
 let tileset;
 
 let selectedFeature;
-const picking = false;
+let picking = false;
 
 // In this tileset every feature has an "element" property which is a global ID.
 // This property is used to associate features across different tiles and LODs.
@@ -15,25 +15,18 @@ const picking = false;
 const elementMap = {}; // Build a map of elements to features.
 const hiddenElements = [112001, 113180, 131136, 113167, 71309, 109652, 111178, 113156, 113170, 124846, 114076, 131122, 113179, 114325, 131134, 113164, 113153, 113179, 109656, 114095, 114093, 39225, 39267, 113149, 113071, 112003, 39229, 113160, 39227, 39234, 113985, 39230, 112004, 39223];
 
-/* Sandcastle.addToggleButton('Per-feature selection', false, (checked) => {
-  picking = checked;
-  if (!picking) {
-    unselectFeature(selectedFeature);
-  }
-}); */
-
 const setElementColor = (element, color) => {
   const featuresToColor = elementMap[element];
   const { length } = featuresToColor;
   for (let i = 0; i < length; ++i) {
     const feature = featuresToColor[i];
-    feature.color = Cesium.Color.clone(color, feature.color);
+    feature.color = Cesium.Color.clone(color, feature.color); // FIXME Model3DTileContent.js:113 Uncaught TypeError: Cannot read properties of undefined (reading 'featureTables')
   }
 };
 
 const selectFeature = (feature) => {
   const element = feature.getProperty('element');
-  setElementColor(element, Cesium.Color.YELLOW);
+  setElementColor(element, Cesium.Color.YELLOW); // FIXME Model3DTileContent.js:113 Uncaught TypeError: Cannot read properties of undefined (reading 'featureTables')
   selectedFeature = feature;
 };
 
@@ -95,6 +88,13 @@ const processTileFeatures = (tile, callback) => {
   }
 };
 
+export const toggleFeatureShow = (checked) => {
+  picking = checked;
+  if (!picking) {
+    unselectFeature(selectedFeature);
+  }
+};
+
 export const demo3DTilesBIM = (viewer) => {
   display_Animation_Timeline_Container(viewer);
   adjust_Animation_Timeline_to(viewer, Cesium.JulianDate.fromIso8601('2022-08-01T00:00:00Z'));
@@ -109,11 +109,7 @@ export const demo3DTilesBIM = (viewer) => {
     .then((resTileset) => {
       viewer.zoomTo(
         resTileset,
-        new Cesium.HeadingPitchRange(
-          0.5,
-          -0.2,
-          resTileset.boundingSphere.radius * 4.0,
-        ),
+        new Cesium.HeadingPitchRange(0.5, -0.2, resTileset.boundingSphere.radius * 4.0),
       );
     })
     .catch((error) => {
@@ -133,7 +129,7 @@ export const demo3DTilesBIM = (viewer) => {
     unselectFeature(selectedFeature);
 
     if (feature instanceof Cesium.Cesium3DTileFeature) {
-      selectFeature(feature);
+      selectFeature(feature); // FIXME Model3DTileContent.js:113 Uncaught TypeError: Cannot read properties of undefined (reading 'featureTables')
     }
   }, Cesium.ScreenSpaceEventType.MOUSE_MOVE);
 
@@ -149,6 +145,8 @@ export const demo3DTilesBIM = (viewer) => {
 export const destroyDemo3DTilesBIM = (viewer) => {
   adjust_Animation_Timeline_to(viewer, 'NOW');
   hide_Animation_Timeline_Container(viewer);
+
+  toggleFeatureShow(false);
 
   removePrimitive(viewer, tileset);
   tileset = undefined;
