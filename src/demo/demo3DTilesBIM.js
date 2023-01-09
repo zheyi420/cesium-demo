@@ -5,7 +5,7 @@ import {
 import { ConsoleLog } from '../utils';
 
 let tileset;
-
+let handler;
 let selectedFeature;
 let picking = false;
 
@@ -18,6 +18,7 @@ const hiddenElements = [112001, 113180, 131136, 113167, 71309, 109652, 111178, 1
 const setElementColor = (element, color) => {
   const featuresToColor = elementMap[element];
   const { length } = featuresToColor;
+  // console.log('featuresToColor:', featuresToColor); // [Cesium3DTileFeature, Cesium3DTileFeature, ...]
   for (let i = 0; i < length; ++i) {
     const feature = featuresToColor[i];
     feature.color = Cesium.Color.clone(color, feature.color); // FIXME Model3DTileContent.js:113 Uncaught TypeError: Cannot read properties of undefined (reading 'featureTables')
@@ -91,6 +92,8 @@ const processTileFeatures = (tile, callback) => {
 export const toggleFeatureShow = (checked) => {
   picking = checked;
   if (!picking) {
+    console.log(selectedFeature);
+    console.log(Cesium.defined(selectedFeature));
     unselectFeature(selectedFeature);
   }
 };
@@ -118,7 +121,7 @@ export const demo3DTilesBIM = (viewer) => {
 
   tileset.colorBlendMode = Cesium.Cesium3DTileColorBlendMode.REPLACE;
 
-  const handler = new Cesium.ScreenSpaceEventHandler(viewer.scene.canvas);
+  handler = new Cesium.ScreenSpaceEventHandler(viewer.scene.canvas);
   handler.setInputAction((movement) => {
     if (!picking) {
       return;
@@ -134,20 +137,28 @@ export const demo3DTilesBIM = (viewer) => {
   }, Cesium.ScreenSpaceEventType.MOUSE_MOVE);
 
   tileset.tileLoad.addEventListener((tile) => {
+    console.log('A tile was loaded.');
     processTileFeatures(tile, loadFeature);
   });
 
   tileset.tileUnload.addEventListener((tile) => {
+    console.log('A tile was unloaded from the cache.');
     processTileFeatures(tile, unloadFeature);
   });
 };
 
 export const destroyDemo3DTilesBIM = (viewer) => {
-  adjust_Animation_Timeline_to(viewer, 'NOW');
-  hide_Animation_Timeline_Container(viewer);
-
   toggleFeatureShow(false);
+
+  // handler.removeInputAction(Cesium.ScreenSpaceEventType.MOUSE_MOVE);
+  handler = handler && handler.destroy(); // assign the return value (undefined) to the object
+
+  // tileset.tileload.removeEventListener();
+  // tileset.tileUnload.removeEventListener();
 
   removePrimitive(viewer, tileset);
   tileset = undefined;
+
+  adjust_Animation_Timeline_to(viewer, 'NOW');
+  hide_Animation_Timeline_Container(viewer);
 };

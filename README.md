@@ -14,15 +14,16 @@
 
 - Demo from [CesiumJS Code Examples](https://sandcastle.cesium.com/).
 
-  - [ ] 3D Tiles Adjust Height.
+  - [x] [3D Tiles BIM](https://sandcastle.cesium.com/?src=3D%20Tiles%20BIM.html): A sample BIM dataset rendered with 3D Tiles.
 
-  - [ ] Ambient Occlusion.
+  - [ ] [3D Tiles Clipping Planes](https://sandcastle.cesium.com/?src=3D%20Tiles%20Clipping%20Planes.html): User-defined clipping planes applied to a batched 3D Tileset, point cloud, and model.
 
-  - [ ] CZML.
+  - [ ] [3D Tiles Compare](https://sandcastle.cesium.com/?src=3D%20Tiles%20Compare.html): Compare 3D Tiles tilesets by showing different ones on different sides of the screen.
 
-  - [ ] ...
+  - [ ] [3D Tiles Feature Picking](https://sandcastle.cesium.com/?src=3D%20Tiles%20Feature%20Picking.html): Pick features in a 3D Tiles tileset.
 
 - Basic Functions.
+
   - [ ] Display spatial coordinates.
 
   - [ ] Distance measurement.

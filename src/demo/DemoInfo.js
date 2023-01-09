@@ -32,7 +32,7 @@ export const GalleryList = [
     label: '3D Tiles',
     contents: [
       {
-        // https://sandcastle.cesium.com/?src=3D%20Tiles%20BIM.html&label=3D%20Tiles
+        // https://sandcastle.cesium.com/?src=3D%20Tiles%20BIM.html
         label: 'BIM',
         description: 'A sample BIM dataset rendered with 3D Tiles.',
         disabled: false,
