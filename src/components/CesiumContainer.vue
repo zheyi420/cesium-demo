@@ -4,6 +4,7 @@
   <DemoProposedBuilding v-if="isCurDemoProposedBuilding"/>
   <DropDownMenu v-if="hasDropDownMenu" :dropDownMenuOptionOfDemo="dropDownMenuOptionOfDemo" />
   <ToolbarButtonType v-if="isToolbarButtonType"/>
+  <Demo3DTilesClippingPlanes v-if="isCurDemo3DTilesClippingPlanes"/>
 </template>
 
 <script setup>
@@ -14,12 +15,14 @@ import GalleryPanel from './GalleryPanel.vue';
 import DemoProposedBuilding from './DemoProposedBuilding.vue';
 import DropDownMenu from './DropDownMenu.vue';
 import ToolbarButtonType from './ToolbarButtonType.vue';
+import Demo3DTilesClippingPlanes from './Demo3DTilesClippingPlanes.vue';
 import { demoQuickStart, destroyDemoQuickStart } from '../demo/demoQuickStart';
 import { demoFlightTracker, destroyDemoFlightTracker } from '../demo/demoFlightTracker';
 import { demoProposedBuilding, destroyDemoProposedBuilding } from '../demo/demoProposedBuilding';
 import { demoShowEntities, destroyDemoShowEntities } from '../demo/demoShowEntities';
 import { get3DModelsOptions, demo3DModels, destroyDemo3DModels } from '../demo/demo3DModels';
 import { demo3DTilesBIM, destroyDemo3DTilesBIM } from '../demo/demo3DTilesBIM';
+import { demo3DTilesClippingPlanes, destroyDemo3DTilesClippingPlanes } from '../demo/demo3DTilesClippingPlanes';
 import { useCurDemoStore } from '../stores/states';
 import { ConsoleLog } from '../utils';
 
@@ -40,21 +43,19 @@ const dropDownMenuOptionOfDemo = reactive([]);
 const demoCaseInfo = computed(() => storeCurDemo.getCurDemo.categoryLabel.concat('-', storeCurDemo.getCurDemo.label));
 
 const isCurDemoProposedBuilding = computed(() => {
-  if (!storeCurDemo.hasDemoRun) return false;
-
   return storeCurDemo.hasDemoRun && demoCaseInfo.value === 'Other-Proposed Building';
 });
 
 const hasDropDownMenu = computed(() => {
-  if (!storeCurDemo.hasDemoRun) return false;
-
   return storeCurDemo.hasDemoRun && demoCaseInfo.value === 'Other-3D Models';
 });
 
 const isToolbarButtonType = computed(() => {
-  if (!storeCurDemo.hasDemoRun) return false;
-
   return storeCurDemo.hasDemoRun && demoCaseInfo.value === '3D Tiles-BIM';
+});
+
+const isCurDemo3DTilesClippingPlanes = computed(() => {
+  return storeCurDemo.hasDemoRun && demoCaseInfo.value === '3D Tiles-Clipping Planes';
 });
 
 const demoCase = (caseInfo) => {
@@ -87,6 +88,10 @@ const demoCase = (caseInfo) => {
     }
     case '3D Tiles-BIM': {
       demo3DTilesBIM(viewer);
+      break;
+    }
+    case '3D Tiles-Clipping Planes': {
+      demo3DTilesClippingPlanes(viewer);
       break;
     }
     default: {
@@ -125,6 +130,10 @@ const destroyCurDemo = () => {
     }
     case '3D Tiles-BIM': {
       destroyDemo3DTilesBIM(viewer);
+      break;
+    }
+    case '3D Tiles-Clipping Planes': {
+      destroyDemo3DTilesClippingPlanes(viewer);
       break;
     }
     default: {

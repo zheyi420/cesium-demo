@@ -38,9 +38,10 @@ export const GalleryList = [
         disabled: false,
       },
       {
+        // https://sandcastle.cesium.com/gallery/3D%20Tiles%20Clipping%20Planes.html
         label: 'Clipping Planes',
         description: 'User-defined clipping planes applied to a batched 3D Tileset, point cloud, and model.',
-        disabled: true,
+        disabled: false,
       },
       {
         label: 'Compare',
