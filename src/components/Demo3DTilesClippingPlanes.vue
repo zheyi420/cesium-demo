@@ -13,7 +13,7 @@
 <script setup>
 import { ref, reactive, onMounted } from 'vue';
 import { ConsoleLog } from '../utils';
-import { selectClipObject, selectBoundingVolumesEnabled, selectStylingEnabled } from '../demo/demo3DTilesClippingPlanes';
+import { selectClipObject, selectBoundingVolumesEnabled, selectStylingEnabled } from '../demo/3DTilesClippingPlanes';
 
 const clipObjects = ref(["BIM", "Point Cloud", "Instanced", "Model"]);
 
@@ -67,11 +67,11 @@ onMounted(() => {
   -ms-user-select: none;
   user-select: none;
 
-  .select {
+  select {
     cursor: pointer;
   }
 
-  .input {
+  input {
     cursor: pointer;
     vertical-align: middle;
     padding-top: 2px;

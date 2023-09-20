@@ -1,10 +1,10 @@
 <template>
   <div id="cesiumContainer"></div>
-  <GalleryPanel @select="selectCase"/>
-  <DemoProposedBuilding v-if="isCurDemoProposedBuilding"/>
+  <GalleryPanel @select="selectCase" />
+  <DemoProposedBuilding v-if="isCurDemoProposedBuilding" />
   <DropDownMenu v-if="hasDropDownMenu" :dropDownMenuOptionOfDemo="dropDownMenuOptionOfDemo" />
-  <ToolbarButtonType v-if="isToolbarButtonType"/>
-  <Demo3DTilesClippingPlanes v-if="isCurDemo3DTilesClippingPlanes"/>
+  <ToolbarButtonType v-if="isToolbarButtonType" />
+  <Demo3DTilesClippingPlanes v-if="isCurDemo3DTilesClippingPlanes" />
 </template>
 
 <script setup>
@@ -21,8 +21,8 @@ import { demoFlightTracker, destroyDemoFlightTracker } from '../demo/demoFlightT
 import { demoProposedBuilding, destroyDemoProposedBuilding } from '../demo/demoProposedBuilding';
 import { demoShowEntities, destroyDemoShowEntities } from '../demo/demoShowEntities';
 import { get3DModelsOptions, demo3DModels, destroyDemo3DModels } from '../demo/demo3DModels';
-import { demo3DTilesBIM, destroyDemo3DTilesBIM } from '../demo/demo3DTilesBIM';
-import { demo3DTilesClippingPlanes, destroyDemo3DTilesClippingPlanes } from '../demo/demo3DTilesClippingPlanes';
+import { demo3DTilesBIM, destroyDemo3DTilesBIM } from '../demo/3DTilesBIM';
+import { demo3DTilesClippingPlanes, destroyDemo3DTilesClippingPlanes } from '../demo/3DTilesClippingPlanes';
 import { useCurDemoStore } from '../stores/states';
 import { ConsoleLog } from '../utils';
 
@@ -163,7 +163,10 @@ const selectCase = (caseInfo) => {
 };
 
 onMounted(() => {
-  viewer = initCesium();
+  initCesium()
+    .then((res) => {
+      viewer = res;
+    });
 });
 
 </script>

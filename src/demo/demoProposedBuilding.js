@@ -58,7 +58,7 @@ const Cesium3DTileStyle_DisplayOsmBuildingsInFoorprint = new Cesium.Cesium3DTile
  */
 async function addBuildingFootprint(viewer) {
   // Load the GeoJSON file from Cesium ion.
-  const ionResource = await Cesium.IonResource.fromAssetId(1353082);
+  const ionResource = await Cesium.IonResource.fromAssetId(1353082); // TODO switch to using geojson file.
   // Create the geometry from the GeoJSON, and clamp it to the ground.
   const geoJsonDataSource = await Cesium.GeoJsonDataSource.load(ionResource, { clampToGround: true });
   // Add it to the scene.

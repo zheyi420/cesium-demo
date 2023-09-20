@@ -11,7 +11,7 @@
 
 <script setup>
 import { ref } from 'vue';
-import { toggleFeatureShow } from '../demo/demo3DTilesBIM';
+import { toggleFeatureShow } from '../demo/3DTilesBIM';
 
 const checked = ref(false);
 
