@@ -92,34 +92,53 @@ const processTileFeatures = (tile, callback) => {
 export const toggleFeatureShow = (checked) => {
   picking = checked;
   if (!picking) {
-    console.log(selectedFeature);
-    console.log(Cesium.defined(selectedFeature));
+    console.log('selectedFeature:', selectedFeature);
+    console.log('Cesium.defined(selectedFeature):', Cesium.defined(selectedFeature));
     unselectFeature(selectedFeature);
   }
 };
 
-export const demo3DTilesBIM = (viewer) => {
+export const demo3DTilesBIM = async (viewer) => {
   display_Animation_Timeline_Container(viewer);
   adjust_Animation_Timeline_to(viewer, Cesium.JulianDate.fromIso8601('2022-08-01T00:00:00Z'));
 
+  /*
+  // deprecated
   tileset = viewer.scene.primitives.add(
     new Cesium.Cesium3DTileset({
       url: `${import.meta.env.VITE_BUILD_PATH_PREFIX}/SampleData/3DTiles/PowerPlant/tileset.json`,
     }),
   );
+  */
 
-  tileset.readyPromise
-    .then((resTileset) => {
-      viewer.zoomTo(
-        resTileset,
-        new Cesium.HeadingPitchRange(0.5, -0.2, resTileset.boundingSphere.radius * 4.0),
-      );
-    })
-    .catch((error) => {
-      ConsoleLog(error);
+  try {
+    tileset = await Cesium.Cesium3DTileset.fromUrl(
+      `${import.meta.env.VITE_BUILD_PATH_PREFIX}/SampleData/3DTiles/PowerPlant/tileset.json`,
+    );
+    viewer.scene.primitives.add(tileset);
+
+    viewer.zoomTo(
+      tileset,
+      new Cesium.HeadingPitchRange(0.5, -0.2, tileset.boundingSphere.radius * 4.0),
+    );
+
+    tileset.colorBlendMode = Cesium.Cesium3DTileColorBlendMode.REPLACE;
+
+    tileset.tileLoad.addEventListener((tile) => {
+      console.log('A tile was loaded.');
+      processTileFeatures(tile, loadFeature);
     });
 
-  tileset.colorBlendMode = Cesium.Cesium3DTileColorBlendMode.REPLACE;
+    tileset.tileUnload.addEventListener((tile) => {
+      console.log('A tile was unloaded from the cache.');
+      processTileFeatures(tile, unloadFeature);
+    });
+
+  } catch (error) {
+    console.error(`Error creating tileset: ${error}`);
+  }
+
+
 
   handler = new Cesium.ScreenSpaceEventHandler(viewer.scene.canvas);
   handler.setInputAction((movement) => {
@@ -136,15 +155,6 @@ export const demo3DTilesBIM = (viewer) => {
     }
   }, Cesium.ScreenSpaceEventType.MOUSE_MOVE);
 
-  tileset.tileLoad.addEventListener((tile) => {
-    console.log('A tile was loaded.');
-    processTileFeatures(tile, loadFeature);
-  });
-
-  tileset.tileUnload.addEventListener((tile) => {
-    console.log('A tile was unloaded from the cache.');
-    processTileFeatures(tile, unloadFeature);
-  });
 };
 
 export const destroyDemo3DTilesBIM = (viewer) => {
