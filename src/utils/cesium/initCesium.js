@@ -55,9 +55,8 @@ export default async function initCesium(viewerType = '3D') {
     });
 
     return viewer;
-
   } catch (error) {
     console.log(error);
+    return error;
   }
-
 }

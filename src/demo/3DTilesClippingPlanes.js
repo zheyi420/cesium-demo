@@ -6,12 +6,12 @@ let downHandler; // Select plane when mouse down.
 let upHandler; // Release plane on mouse up.
 let moveHandler; // Move plane on mouse move.
 
-const clipObjects = ["BIM", "Point Cloud", "Instanced", "Model"];
+const clipObjects = ['BIM', 'Point Cloud', 'Instanced', 'Model'];
 const viewModel = {
-  currentExampleType: "BIM",
+  currentExampleType: 'BIM',
   debugBoundingVolumesEnabled: false,
   edgeStylingEnabled: true,
-}
+};
 
 let targetY = 0.0;
 let planeEntities = [];
@@ -23,26 +23,23 @@ let tileset;
 // https://ion.cesium.com/assets/
 // const bimUrl = Cesium.IonResource.fromAssetId(1240402);
 const bimUrl = `${import.meta.env.VITE_BUILD_PATH_PREFIX}/SampleData/3DTiles/PowerPlant/tileset.json`;
-const pointCloudUrl = Cesium.IonResource.fromAssetId(16421);
-const instancedUrl = "../SampleData/Cesium3DTiles/Instanced/InstancedOrientation/tileset.json";
+const pointCloud = Cesium.IonResource.fromAssetId(16421); // https://cesium.com/learn/cesiumjs/ref-doc/IonResource.html#.fromAssetId
+const instancedUrl = '../SampleData/Cesium3DTiles/Instanced/InstancedOrientation/tileset.json';
 const modelUrl = `${import.meta.env.VITE_BUILD_PATH_PREFIX}/SampleData/models/Cesium_Air.glb`;
 
-
-const createPlaneUpdateFunction = (plane) => {
-  return () => {
-    plane.distance = targetY;
-    return plane;
-  };
-}
+const createPlaneUpdateFunction = (plane) => () => {
+  plane.distance = targetY;
+  return plane;
+};
 
 const loadTileset = async (resource, modelMatrix) => {
-  const currentExampleType = viewModel.currentExampleType;
+  const { currentExampleType } = viewModel;
 
   clippingPlanes = new Cesium.ClippingPlaneCollection({
     planes: [
       new Cesium.ClippingPlane(
         new Cesium.Cartesian3(0.0, 0.0, -1.0),
-        0.0
+        0.0,
       ),
     ],
     edgeWidth: viewModel.edgeStylingEnabled ? 1.0 : 0.0,
@@ -50,8 +47,8 @@ const loadTileset = async (resource, modelMatrix) => {
 
   try {
     const url = await Promise.resolve(resource);
-    tileset = await Cesium.Cesium3DTileset.fromUrl(url, {
-      clippingPlanes: clippingPlanes,
+    tileset = await Cesium.Cesium3DTileset.fromUrl(url, { // url -> Type: Resource | string
+      clippingPlanes,
     });
 
     if (currentExampleType !== viewModel.currentExampleType) {
@@ -66,35 +63,35 @@ const loadTileset = async (resource, modelMatrix) => {
     _viewer.scene.primitives.add(tileset);
 
     tileset.debugShowBoundingVolume = viewModel.debugBoundingVolumesEnabled;
-    const boundingSphere = tileset.boundingSphere;
-    const radius = boundingSphere.radius;
+    const { boundingSphere } = tileset;
+    const { radius } = boundingSphere;
 
     _viewer.zoomTo(
       tileset,
-      new Cesium.HeadingPitchRange(0.5, -0.2, radius * 4.0)
+      new Cesium.HeadingPitchRange(0.5, -0.2, radius * 4.0),
     );
 
     if (
       !Cesium.Matrix4.equals(
         tileset.root.transform,
-        Cesium.Matrix4.IDENTITY
+        Cesium.Matrix4.IDENTITY,
       )
     ) {
       // The clipping plane is initially positioned at the tileset's root transform.
       // Apply an additional matrix to center the clipping plane on the bounding sphere center.
       const transformCenter = Cesium.Matrix4.getTranslation(
         tileset.root.transform,
-        new Cesium.Cartesian3()
+        new Cesium.Cartesian3(),
       );
       const transformCartographic = Cesium.Cartographic.fromCartesian(
-        transformCenter
+        transformCenter,
       );
       const boundingSphereCartographic = Cesium.Cartographic.fromCartesian(
-        tileset.boundingSphere.center
+        tileset.boundingSphere.center,
       );
       const height = boundingSphereCartographic.height - transformCartographic.height;
       clippingPlanes.modelMatrix = Cesium.Matrix4.fromTranslation(
-        new Cesium.Cartesian3(0.0, 0.0, height)
+        new Cesium.Cartesian3(0.0, 0.0, height),
       );
     }
 
@@ -107,7 +104,7 @@ const loadTileset = async (resource, modelMatrix) => {
           material: Cesium.Color.WHITE.withAlpha(0.1),
           plane: new Cesium.CallbackProperty(
             createPlaneUpdateFunction(plane),
-            false
+            false,
           ),
           outline: true,
           outlineColor: Cesium.Color.WHITE,
@@ -120,14 +117,14 @@ const loadTileset = async (resource, modelMatrix) => {
   } catch (error) {
     console.log(`Error loading  tileset: ${error}`);
   }
-}
+};
 
 const loadModel = (url) => {
   clippingPlanes = new Cesium.ClippingPlaneCollection({
     planes: [
       new Cesium.ClippingPlane(
         new Cesium.Cartesian3(0.0, 0.0, -1.0),
-        0.0
+        0.0,
       ),
     ],
     edgeWidth: viewModel.edgeStylingEnabled ? 1.0 : 0.0,
@@ -136,7 +133,7 @@ const loadModel = (url) => {
   const position = Cesium.Cartesian3.fromDegrees(
     -123.0744619,
     44.0503706,
-    300.0
+    300.0,
   );
   const heading = Cesium.Math.toRadians(135.0);
   const pitch = 0.0;
@@ -144,17 +141,17 @@ const loadModel = (url) => {
   const hpr = new Cesium.HeadingPitchRoll(heading, pitch, roll);
   const orientation = Cesium.Transforms.headingPitchRollQuaternion(
     position,
-    hpr
+    hpr,
   );
   const entity = _viewer.entities.add({
     name: url,
-    position: position,
-    orientation: orientation,
+    position,
+    orientation,
     model: {
       uri: url,
       scale: 8,
       minimumPixelSize: 100.0,
-      clippingPlanes: clippingPlanes,
+      clippingPlanes,
     },
   });
 
@@ -163,13 +160,13 @@ const loadModel = (url) => {
   for (let i = 0; i < clippingPlanes.length; ++i) {
     const plane = clippingPlanes.get(i);
     const planeEntity = _viewer.entities.add({
-      position: position,
+      position,
       plane: {
         dimensions: new Cesium.Cartesian2(300.0, 300.0),
         material: Cesium.Color.WHITE.withAlpha(0.1),
         plane: new Cesium.CallbackProperty(
           createPlaneUpdateFunction(plane),
-          false
+          false,
         ),
         outline: true,
         outlineColor: Cesium.Color.WHITE,
@@ -199,14 +196,14 @@ export const selectClipObject = (val) => {
   if (val === clipObjects[0]) {
     loadTileset(bimUrl);
   } else if (val === clipObjects[1]) {
-    loadTileset(pointCloudUrl);
+    loadTileset(pointCloud);
   } else if (val === clipObjects[2]) {
     // Position the instanced tileset above terrain
     loadTileset(
       instancedUrl,
       Cesium.Matrix4.fromTranslation(
-        new Cesium.Cartesian3(15.0, -58.6, 50.825)
-      )
+        new Cesium.Cartesian3(15.0, -58.6, 50.825),
+      ),
     );
   } else {
     loadModel(modelUrl);
@@ -239,9 +236,9 @@ export const demo3DTilesClippingPlanes = (viewer) => {
   downHandler.setInputAction((movement) => {
     const pickedObject = _scene.pick(movement.position);
     if (
-      Cesium.defined(pickedObject) &&
-      Cesium.defined(pickedObject.id) &&
-      Cesium.defined(pickedObject.id.plane)
+      Cesium.defined(pickedObject)
+      && Cesium.defined(pickedObject.id)
+      && Cesium.defined(pickedObject.id.plane)
     ) {
       selectedPlane = pickedObject.id.plane;
       selectedPlane.material = Cesium.Color.WHITE.withAlpha(0.05);
@@ -264,16 +261,14 @@ export const demo3DTilesClippingPlanes = (viewer) => {
 
   // Move plane on mouse move.
   moveHandler = new Cesium.ScreenSpaceEventHandler(_viewer.scene.canvas);
-  moveHandler.setInputAction(function (movement) {
+  moveHandler.setInputAction((movement) => {
     if (Cesium.defined(selectedPlane)) {
       const deltaY = movement.startPosition.y - movement.endPosition.y;
       targetY += deltaY;
     }
   }, Cesium.ScreenSpaceEventType.MOUSE_MOVE);
 
-
   loadTileset(bimUrl);
-
 };
 
 export const destroyDemo3DTilesClippingPlanes = (viewer) => { };
