@@ -26,6 +26,11 @@ export const GalleryList = [
         description: 'Visualize a Proposed Building in a 3D City',
         disabled: false,
       },
+      {
+        label: 'Shipping',
+        description: 'Shipping',
+        disabled: false,
+      },
     ],
   },
   {

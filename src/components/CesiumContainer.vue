@@ -23,6 +23,7 @@ import { demoShowEntities, destroyDemoShowEntities } from '../demo/demoShowEntit
 import { get3DModelsOptions, demo3DModels, destroyDemo3DModels } from '../demo/demo3DModels';
 import { demo3DTilesBIM, destroyDemo3DTilesBIM } from '../demo/3DTilesBIM';
 import { demo3DTilesClippingPlanes, destroyDemo3DTilesClippingPlanes } from '../demo/3DTilesClippingPlanes';
+import { demoShipping, destroyShipping } from '../demo/demoShipping';
 import { useCurDemoStore } from '../stores/states';
 import { ConsoleLog } from '../utils';
 
@@ -78,6 +79,10 @@ const demoCase = (caseInfo) => {
       demo3DModels(viewer);
       break;
     }
+    case 'Other-Shipping': {
+      demoShipping(viewer);
+      break;
+    }
     case '3D Tiles-BIM': {
       demo3DTilesBIM(viewer);
       break;
@@ -118,6 +123,10 @@ const destroyCurDemo = () => {
     case 'Other-3D Models': {
       dropDownMenuOptionOfDemo.splice(0, dropDownMenuOptionOfDemo.length);
       destroyDemo3DModels(viewer);
+      break;
+    }
+    case 'Other-Shipping': {
+      destroyShipping(viewer);
       break;
     }
     case '3D Tiles-BIM': {
