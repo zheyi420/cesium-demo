@@ -113,7 +113,7 @@ const loadTileset = async (resource, modelMatrix) => {
 
       planeEntities.push(planeEntity);
     }
-    return tileset;
+    // return tileset; // Async arrow function expected no return value. eslint(consistent-return)
   } catch (error) {
     console.log(`Error loading  tileset: ${error}`);
   }

@@ -133,12 +133,9 @@ export const demo3DTilesBIM = async (viewer) => {
       console.log('A tile was unloaded from the cache.');
       processTileFeatures(tile, unloadFeature);
     });
-
   } catch (error) {
     console.error(`Error creating tileset: ${error}`);
   }
-
-
 
   handler = new Cesium.ScreenSpaceEventHandler(viewer.scene.canvas);
   handler.setInputAction((movement) => {
@@ -154,7 +151,6 @@ export const demo3DTilesBIM = async (viewer) => {
       selectFeature(feature); // FIXME Model3DTileContent.js:113 Uncaught TypeError: Cannot read properties of undefined (reading 'featureTables')
     }
   }, Cesium.ScreenSpaceEventType.MOUSE_MOVE);
-
 };
 
 export const destroyDemo3DTilesBIM = (viewer) => {

@@ -15,7 +15,7 @@ import { ref, reactive, onMounted } from 'vue';
 import { ConsoleLog } from '../utils';
 import { selectClipObject, selectBoundingVolumesEnabled, selectStylingEnabled } from '../demo/3DTilesClippingPlanes';
 
-const clipObjects = ref(["BIM", "Point Cloud", "Instanced", "Model"]);
+const clipObjects = ref(['BIM', 'Point Cloud', 'Instanced', 'Model']);
 
 const viewModel = reactive({
   debugBoundingVolumesEnabled: false,
@@ -41,7 +41,7 @@ const handleEdgeStylingChange = () => {
 
 onMounted(() => {
   // selectClipObject(viewModel.currentExampleType);
-})
+});
 
 </script>
 

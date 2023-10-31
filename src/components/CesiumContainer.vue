@@ -42,21 +42,13 @@ const dropDownMenuOptionOfDemo = reactive([]);
 
 const demoCaseInfo = computed(() => storeCurDemo.getCurDemo.categoryLabel.concat('-', storeCurDemo.getCurDemo.label));
 
-const isCurDemoProposedBuilding = computed(() => {
-  return storeCurDemo.hasDemoRun && demoCaseInfo.value === 'Other-Proposed Building';
-});
+const isCurDemoProposedBuilding = computed(() => storeCurDemo.hasDemoRun && demoCaseInfo.value === 'Other-Proposed Building');
 
-const hasDropDownMenu = computed(() => {
-  return storeCurDemo.hasDemoRun && demoCaseInfo.value === 'Other-3D Models';
-});
+const hasDropDownMenu = computed(() => storeCurDemo.hasDemoRun && demoCaseInfo.value === 'Other-3D Models');
 
-const isToolbarButtonType = computed(() => {
-  return storeCurDemo.hasDemoRun && demoCaseInfo.value === '3D Tiles-BIM';
-});
+const isToolbarButtonType = computed(() => storeCurDemo.hasDemoRun && demoCaseInfo.value === '3D Tiles-BIM');
 
-const isCurDemo3DTilesClippingPlanes = computed(() => {
-  return storeCurDemo.hasDemoRun && demoCaseInfo.value === '3D Tiles-Clipping Planes';
-});
+const isCurDemo3DTilesClippingPlanes = computed(() => storeCurDemo.hasDemoRun && demoCaseInfo.value === '3D Tiles-Clipping Planes');
 
 const demoCase = (caseInfo) => {
   ConsoleLog(`CesiumContainer run demoCase(): ${caseInfo.categoryLabel} - ${caseInfo.label}`);
