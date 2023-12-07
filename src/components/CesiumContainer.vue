@@ -24,6 +24,7 @@ import { get3DModelsOptions, demo3DModels, destroyDemo3DModels } from '../demo/d
 import { demo3DTilesBIM, destroyDemo3DTilesBIM } from '../demo/3DTilesBIM';
 import { demo3DTilesClippingPlanes, destroyDemo3DTilesClippingPlanes } from '../demo/3DTilesClippingPlanes';
 import { demoShipping, destroyShipping } from '../demo/demoShipping';
+import { demoGeoInfo, destroyGeoInfo } from '../demo/demoGeoInfo';
 import { useCurDemoStore } from '../stores/states';
 import { ConsoleLog } from '../utils';
 
@@ -83,6 +84,10 @@ const demoCase = (caseInfo) => {
       demoShipping(viewer);
       break;
     }
+    case 'Other-Geo Info': {
+      demoGeoInfo(viewer);
+      break;
+    }
     case '3D Tiles-BIM': {
       demo3DTilesBIM(viewer);
       break;
@@ -127,6 +132,10 @@ const destroyCurDemo = () => {
     }
     case 'Other-Shipping': {
       destroyShipping(viewer);
+      break;
+    }
+    case 'Other-Geo Info': {
+      destroyGeoInfo(viewer);
       break;
     }
     case '3D Tiles-BIM': {

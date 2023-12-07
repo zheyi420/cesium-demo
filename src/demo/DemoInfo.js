@@ -31,6 +31,11 @@ export const GalleryList = [
         description: 'Shipping',
         disabled: false,
       },
+      {
+        label: 'Geo Info',
+        description: 'Geo Info',
+        disabled: false,
+      },
     ],
   },
   {
