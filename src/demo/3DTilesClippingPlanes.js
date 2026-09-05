@@ -23,7 +23,7 @@ let tileset;
 // https://ion.cesium.com/assets/
 // const bimUrl = Cesium.IonResource.fromAssetId(1240402);
 const bimUrl = `${import.meta.env.VITE_BUILD_PATH_PREFIX}/SampleData/3DTiles/PowerPlant/tileset.json`;
-const pointCloud = Cesium.IonResource.fromAssetId(16421); // https://cesium.com/learn/cesiumjs/ref-doc/IonResource.html#.fromAssetId
+const POINT_CLOUD_ASSET_ID = 16421; // https://cesium.com/learn/cesiumjs/ref-doc/IonResource.html#.fromAssetId
 const instancedUrl = '../SampleData/Cesium3DTiles/Instanced/InstancedOrientation/tileset.json';
 const modelUrl = `${import.meta.env.VITE_BUILD_PATH_PREFIX}/SampleData/models/Cesium_Air.glb`;
 
@@ -196,7 +196,7 @@ export const selectClipObject = (val) => {
   if (val === clipObjects[0]) {
     loadTileset(bimUrl);
   } else if (val === clipObjects[1]) {
-    loadTileset(pointCloud);
+    loadTileset(Cesium.IonResource.fromAssetId(POINT_CLOUD_ASSET_ID));
   } else if (val === clipObjects[2]) {
     // Position the instanced tileset above terrain
     loadTileset(

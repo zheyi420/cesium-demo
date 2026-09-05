@@ -7,7 +7,7 @@ import { ConsoleLog } from '../utils';
 
 let primitive_CesiumOsmBuildings;
 
-export const demoFlightTracker = (viewer) => {
+export const demoFlightTracker = async (viewer) => {
   display_Animation_Timeline_Container(viewer);
 
   /**
@@ -37,7 +37,7 @@ export const demoFlightTracker = (viewer) => {
   viewer.camera.lookAt(targetPosition, new Cesium.HeadingPitchRange(heading, pitch, range));
   */
 
-  primitive_CesiumOsmBuildings = addOSMBuildings(viewer);
+  primitive_CesiumOsmBuildings = await addOSMBuildings(viewer);
 
   // These are all the radar points from this flight.
   const trajectoryData = JSON.parse(JSON.stringify(trajectory));

@@ -13,7 +13,7 @@ export default async function initCesium(viewerType = '3D') {
   // https://cesium.com/learn/cesiumjs-learn/cesiumjs-quickstart/#install-with-npm
   window.CESIUM_BASE_URL = `${import.meta.env.VITE_BUILD_PATH_PREFIX}/cesium/Build/Cesium/`;
 
-  Cesium.Ion.defaultAccessToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiIzNmU5ZTZhOS1lOThmLTRlM2QtYjg2NS1iMGQ1Y2JiZGQyYzUiLCJpZCI6MTA4NDQ0LCJpYXQiOjE2NjM1Njc5OTR9.CuE8Bqn8X02o64kfjVHZUiUU1bKiNeqWYXoY7e5_BCc';
+  Cesium.Ion.defaultAccessToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI1ZmY2ZWNkYy04ZjI4LTQ1ZjQtYjRhYS0wZjYwMDdmNmUyZTUiLCJpZCI6MTA4NDQ0LCJpYXQiOjE3NTM4MDQyNzV9.9007CkJcf5kmK2odPZVGTrWExOwhOZy6mqs0GD_wo7A';
   Cesium.Camera.DEFAULT_VIEW_RECTANGLE = Cesium.Rectangle.fromDegrees(80, 22, 130, 50);
 
   const containerID = viewerType === '3D' ? 'cesiumContainer' : 'cesiumContainer2D';

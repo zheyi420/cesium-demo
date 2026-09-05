@@ -2,7 +2,7 @@ import Cesium from '../utils/cesium/Cesium';
 import shippingTrack from './assets/shippingTrack.json'; // TODO 为什么不能使用 geojson 格式的数据？
 // import shippingTrackGCJ02 from './assets/shippingTrack-GCJ02.json';
 import {
-  addOSMBuildings, removePrimitive, display_Animation_Timeline_Container, hide_Animation_Timeline_Container, adjust_Animation_Timeline_to,
+  display_Animation_Timeline_Container, hide_Animation_Timeline_Container, adjust_Animation_Timeline_to,
 } from '../utils/cesium';
 
 const positionProperty = new Cesium.SampledPositionProperty();

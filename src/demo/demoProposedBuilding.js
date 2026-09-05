@@ -78,7 +78,7 @@ async function addBuildingFootprint(viewer) {
 export async function demoProposedBuilding(viewer) {
   display_Animation_Timeline_Container(viewer);
 
-  primitive_CesiumOsmBuildings = addOSMBuildings(viewer);
+  primitive_CesiumOsmBuildings = await addOSMBuildings(viewer);
 
   dataSource_BuildingFootprint = await addBuildingFootprint(viewer);
   ConsoleLog('dataSource_BuildingFootprint:', dataSource_BuildingFootprint);
@@ -88,11 +88,8 @@ export async function demoProposedBuilding(viewer) {
   };
 
   // Add the 3D Tileset you created from your Cesium ion account.
-  primitive_ProposedBuildingTileset = viewer.scene.primitives.add(
-    new Cesium.Cesium3DTileset({
-      url: Cesium.IonResource.fromAssetId(1355614),
-    }),
-  );
+  primitive_ProposedBuildingTileset = await Cesium.Cesium3DTileset.fromIonAssetId(1355614);
+  viewer.scene.primitives.add(primitive_ProposedBuildingTileset);
 
   // Move the camera to the new building.
   const heading = Cesium.Math.toRadians(-45.0);

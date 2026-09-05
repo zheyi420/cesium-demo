@@ -51,6 +51,18 @@ const getGeoCoord = (viewer, position) => {
 const getEllipsoidCoord = (viewer, position) => {
   const ellipsoidPosition = viewer.scene.camera.pickEllipsoid(position, viewer.scene.globe.ellipsoid);
   console.log('椭球面位置 Cartesian3:', ellipsoidPosition); // Cartesian3
+
+  console.log(`椭球面位置 viewer.scene.globe.depthTestAgainstTerrain: ${viewer.scene.globe.depthTestAgainstTerrain}`);
+
+  // Cartographic
+  const coordCartographicFromCartographic = Cesium.Cartographic.fromCartesian(ellipsoidPosition);
+  console.log('椭球面位置 Cartographic [通过 Cesium.Cartographic.fromCartesian]:', coordCartographicFromCartographic);
+
+  // WGS84
+  const coordWGS84LonFromCartographic = Cesium.Math.toDegrees(coordCartographicFromCartographic.longitude);
+  const coordWGS84LatFromCartographic = Cesium.Math.toDegrees(coordCartographicFromCartographic.latitude);
+  const coordWGS84HeightFromCartographic = coordCartographicFromCartographic.height;
+  console.log(`椭球面位置 WGS84 [通过 Cesium.Cartographic.fromCartesian]: lon:${coordWGS84LonFromCartographic}, lat:${coordWGS84LatFromCartographic}, height:${coordWGS84HeightFromCartographic}`);
 };
 
 export const demoGeoInfo = (viewer) => {

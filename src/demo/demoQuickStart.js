@@ -14,10 +14,10 @@ const flyTo = (viewer) => {
   });
 };
 
-export const demoQuickStart = (viewer) => {
+export const demoQuickStart = async (viewer) => {
   flyTo(viewer);
   // TODO use the function which can detect whether the loading of terrain at destination had compeleted before add OSMBuildings.
-  primitive_CesiumOsmBuildings = addOSMBuildings(viewer);
+  primitive_CesiumOsmBuildings = await addOSMBuildings(viewer);
 
   console.log('primitive_CesiumOsmBuildings - after created:', primitive_CesiumOsmBuildings);
 };

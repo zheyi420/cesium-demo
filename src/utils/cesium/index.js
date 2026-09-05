@@ -4,28 +4,26 @@ import Cesium from './Cesium';
 /**
  * Add Cesium OSM Buildings, a global 3D buildings layer.
  * @param {Viewer} viewer - Cesium.Viewer
- * @returns {Primitive} The primitive added to the collection.
+ * @returns {Promise<Primitive>} The primitive added to the collection.
  */
-export const addOSMBuildings = (viewer) => {
-  const primitive_CesiumOsmBuildings = viewer.scene.primitives.add(
-    Cesium.createOsmBuildings({
-      style: new Cesium.Cesium3DTileStyle({
-        /* color: {
-          conditions: [
-            // eslint-disable-next-line no-template-curly-in-string
-            ["${feature['building']} === 'hospital'", "color('#0000FF')"],
-            // eslint-disable-next-line no-template-curly-in-string
-            ["${feature['building']} === 'school'", "color('#00FF00')"],
-            [true, "color('#ffffff')"],
-          ],
-        }, */
-        // For any building that has a `cesium#color` property, use that color, otherwise make it white.
-        color: "Boolean(${feature['cesium#color']}) ? color(${feature['cesium#color']}) : color('#ffffff')", // eslint-disable-line no-template-curly-in-string
-      }),
+export const addOSMBuildings = async (viewer) => {
+  const tileset = await Cesium.createOsmBuildingsAsync({
+    style: new Cesium.Cesium3DTileStyle({
+      /* color: {
+        conditions: [
+          // eslint-disable-next-line no-template-curly-in-string
+          ["${feature['building']} === 'hospital'", "color('#0000FF')"],
+          // eslint-disable-next-line no-template-curly-in-string
+          ["${feature['building']} === 'school'", "color('#00FF00')"],
+          [true, "color('#ffffff')"],
+        ],
+      }, */
+      // For any building that has a `cesium#color` property, use that color, otherwise make it white.
+      color: "Boolean(${feature['cesium#color']}) ? color(${feature['cesium#color']}) : color('#ffffff')", // eslint-disable-line no-template-curly-in-string
     }),
-  );
+  });
 
-  return primitive_CesiumOsmBuildings;
+  return viewer.scene.primitives.add(tileset);
 };
 
 /**
