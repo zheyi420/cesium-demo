@@ -1,7 +1,7 @@
 /**
  * @license
  * Cesium - https://github.com/CesiumGS/cesium
- * Version 1.97
+ * Version 1.110
  *
  * Copyright 2011-2022 Cesium Contributors
  *
@@ -22,4 +22,5 @@
  * Portions licensed separately.
  * See https://github.com/CesiumGS/cesium/blob/main/LICENSE.md for full licensing details.
  */
-define(["./Matrix2-276d97d2","./defaultValue-a6eb9f34","./EllipseGeometry-84768225","./ComponentDatatype-7f6d9570","./WebGLConstants-d81b330d","./RuntimeError-07496d94","./Transforms-0c3fa360","./_commonjsHelpers-89c9b271","./combine-7cf28d88","./EllipseGeometryLibrary-65924704","./GeometryAttribute-54019f82","./GeometryAttributes-aff51037","./GeometryInstance-52eaddec","./GeometryOffsetAttribute-102da468","./GeometryPipeline-f46d7519","./AttributeCompression-28a6d524","./EncodedCartesian3-32c625e4","./IndexDatatype-856d3a0c","./IntersectionTests-fbcff83c","./Plane-17fe9d66","./VertexFormat-31cdbccc"],(function(e,t,r,n,o,i,a,c,d,s,l,f,m,p,u,y,b,G,E,C,_){"use strict";return function(n,o){return t.defined(o)&&(n=r.EllipseGeometry.unpack(n,o)),n._center=e.Cartesian3.clone(n._center),n._ellipsoid=e.Ellipsoid.clone(n._ellipsoid),r.EllipseGeometry.createGeometry(n)}}));
+
+import{a as o}from"./chunk-LI57543R.js";import"./chunk-UWY3NBWP.js";import"./chunk-XCRGRNQS.js";import"./chunk-SWN2FXZS.js";import"./chunk-7QQVIQUI.js";import"./chunk-KHY6RFC7.js";import"./chunk-RC3J75N5.js";import"./chunk-H77XG57N.js";import"./chunk-AAT5S4I6.js";import"./chunk-S2GBLW2R.js";import"./chunk-7P3UWTUX.js";import"./chunk-GIF3NIGD.js";import"./chunk-7VHC7I6W.js";import"./chunk-VNH2ZAFU.js";import"./chunk-2YKWURU2.js";import"./chunk-TL76KVMB.js";import"./chunk-EK7K4JTS.js";import{a as t,c}from"./chunk-TZVAMLG3.js";import"./chunk-7IOYEWZQ.js";import"./chunk-XE4KLUZ2.js";import"./chunk-TL6AL3PA.js";import"./chunk-DYKDQ7Q5.js";import"./chunk-57R6MEVR.js";import{e as n}from"./chunk-KNXNZS2Q.js";function a(r,i){return n(i)&&(r=o.unpack(r,i)),r._center=t.clone(r._center),r._ellipsoid=c.clone(r._ellipsoid),o.createGeometry(r)}var u=a;export{u as default};
