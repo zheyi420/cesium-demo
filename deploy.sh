@@ -20,15 +20,15 @@ git add .
 
 git commit -m 'deploy'
 
-git config http.proxy "127.0.0.1:10809"
+git config http.proxy "127.0.0.1:10808"
 
-git config https.proxy "127.0.0.1:10809"
+git config https.proxy "127.0.0.1:10808"
 
 # 部署到 https://<USERNAME>.github.io
 # git push -f git@github.com:<USERNAME>/<USERNAME>.github.io.git master
 
 # 部署到 https://<USERNAME>.github.io/<REPO>
 # git push -f git@github.com:<USERNAME>/<REPO>.git master:gh-pages
-git push -f https://github.com/zheyi420/cesium-demo.git master:gh-pages
+git push -f https://github.com/zheyi420/cesium-demo.git HEAD:gh-pages
 
 cd -
